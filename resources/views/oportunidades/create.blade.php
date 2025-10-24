@@ -1,0 +1,133 @@
+<x-app-layout>
+    <div class="page-header d-print-none" aria-label="Page header">
+        <div class="container-xl">
+            <div class="row g-2 align-items-center">
+                <div class="col">
+                    <div class="col-auto d-flex align-items-center">
+                        <a class="btn btn-action" href="{{ route('oportunidades.index') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-left">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M5 12l14 0" />
+                                <path d="M5 12l4 4" />
+                                <path d="M5 12l4 -4" />
+                            </svg>
+                        </a>
+                        <!-- Page pre-title -->
+                        <h2 class="page-title">Cadastrar oportunidade</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-body">
+        <div class="container-xl">
+            <div class="row row-cards">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <form method="POST" action="{{ isset($oportunidade) ? route('oportunidades.update', $oportunidade) : route('oportunidades.store') }}">
+                                @csrf
+                                @if(isset($oportunidade))
+                                    @method('PUT')
+                                @endif
+
+                                <div class="row mb-3">
+                                    <div class="col-7 d-flex align-items-center">
+                                        <h3 class="mb-0">Informações</h3>
+                                    </div>
+                                    <div class="col-5 d-flex gap-3 justify-content-end align-items-center">
+                                        <button type="submit" class="btn btn-dark px-4" form="createForm" id="submitBtn">
+                                            <span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-device-floppy">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
+                                                    <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+                                                    <path d="M14 4l0 4l-6 0l0 -4" />
+                                                </svg>
+                                            </span>
+                                            Salvar
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-md-3 mb-3">
+                                        <label for="titulo" class="form-label required">Título da oportunidade</label>
+                                        <input type="text" id="titulo" name="titulo" class="form-control" value="{{ old('titulo', $oportunidade->titulo ?? '') }}" required>
+                                    </div>
+
+                                    <div class="col-md-3 mb-3">
+                                        <label for="tipo" class="form-label required">Tipo de oportunidade</label>
+                                        <input type="text" id="tipo" name="tipo" class="form-control" value="{{ old('tipo', $oportunidade->tipo ?? '') }}" required>
+                                    </div>
+
+                                    <div class="col-md-3 mb-3">
+                                        <label for="area_atuacao" class="form-label required">Área de atuação</label>
+                                        <input type="text" id="area_atuacao" name="area_atuacao" class="form-control" value="{{ old('area_atuacao', $oportunidade->area_atuacao ?? '') }}" required>
+                                    </div>
+
+                                    <div class="col-md-3 mb-3">
+                                        <label for="organizacao_responsavel" class="form-label required">Organização responsável</label>
+                                        <input type="text" id="organizacao_responsavel" name="organizacao_responsavel" class="form-control" value="{{ old('organizacao_responsavel', $oportunidade->organizacao_responsavel ?? '') }}" required>
+                                    </div>
+
+                                    <div class="col-md-12 mb-3">
+                                        <label for="descricao" class="form-label required">Descrição detalhada</label>
+                                        <textarea id="descricao" name="descricao" class="form-control" rows="5" required>{{ old('descricao', $oportunidade->descricao ?? '') }}</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col d-flex align-items-center">
+                                        <h3 class="mb-0">Responsável legal</h3>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3 mb-3">
+                                        <label for="estado" class="form-label required">Estado</label>
+                                        <input type="text" id="estado" name="estado" class="form-control" value="{{ old('estado', $oportunidade->estado ?? '') }}" required>
+                                    </div>
+
+                                    <div class="col-md-3 mb-3">
+                                        <label for="cidade" class="form-label required">Cidade</label>
+                                        <input type="text" id="cidade" name="cidade" class="form-control" value="{{ old('cidade', $oportunidade->cidade ?? '') }}" required>
+                                    </div>
+
+                                    <div class="col-md-3 mb-3">
+                                        <label for="formato" class="form-label required">Formato</label>
+                                        <input type="text" id="formato" name="formato" class="form-control" value="{{ old('formato', $oportunidade->formato ?? '') }}" required>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col d-flex align-items-center">
+                                        <h3 class="mb-0">Responsável legal</h3>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3 mb-3">
+                                        <label for="data_inicio" class="form-label required">Data de início</label>
+                                        <input type="date" id="data_inicio" name="data_inicio" class="form-control" value="{{ old('data_inicio', $oportunidade->data_inicio ?? '') }}" required>
+                                    </div>
+
+                                    <div class="col-md-3 mb-3">
+                                        <label for="data_termino" class="form-label">Data de término</label>
+                                        <input type="date" id="data_termino" name="data_termino" class="form-control" value="{{ old('data_termino', $oportunidade->data_termino ?? '') }}">
+                                    </div>
+
+                                    <div class="col-md-3 mb-3">
+                                        <label for="status" class="form-label required">Status</label>
+                                        <input type="text" id="status" name="status" class="form-control" value="{{ old('status', $oportunidade->status ?? '') }}" required>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</x-app-layout>
