@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('empresas', function (Blueprint $table) {
             $table->id();
+            $table->boolean('status')->default(false);
 
             // Dados da empresa
             $table->string('razao_social');

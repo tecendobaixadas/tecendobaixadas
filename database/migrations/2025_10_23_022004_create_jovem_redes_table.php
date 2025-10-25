@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('documentos', function (Blueprint $table) {
+        Schema::create('jovem_redes', function (Blueprint $table) {
             $table->id();
-            $table->boolean('status')->default(false);
-            $table->string('nome');
-            $table->string('tipo');
-            $table->string('categoria');
-            $table->date('data_emissao');
-            $table->string('arquivo')->nullable();
+            $table->foreignId('jovem_id')->constrained('jovens')->onDelete('cascade');
+            $table->string('rede');
+            $table->string('link');
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('documentos');
+        Schema::dropIfExists('jovem_redes');
     }
 };

@@ -85,13 +85,15 @@
                                     </div>
 
                                     <div class="col-md-6 mb-3">
-                                        <label for="arquivo" class="form-label required">Upload do arquivo</label>
-                                        <input type="file" id="arquivo" name="arquivo" class="form-control" required>
-                                        @if(!empty($documento?->arquivo))
-                                            <small>Arquivo atual:
-                                                <a href="{{ asset('storage/'.$documento->arquivo) }}" target="_blank">Visualizar</a>
-                                            </small>
+                                        <label for="arquivo" class="form-label{{ isset($documento->arquivo) ? '' : ' required' }}">Upload do arquivo</label>
+                                        <input type="file" id="arquivo" name="arquivo" class="form-control" value="{{ old('arquivo', $documento->arquivo ?? '') }}" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"{{ isset($documento->arquivo) ? '' : ' required' }}>
+
+                                        @if(isset($documento->arquivo))
+                                            <a href="{{ Storage::url($documento->arquivo) }}" target="_blank" class="btn btn-dark btn-sm mt-3">
+                                                Visualizar
+                                            </a>
                                         @endif
+
                                     </div>
                                 </div>
                             </form>

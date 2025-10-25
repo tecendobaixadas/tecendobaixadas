@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('jovens', function (Blueprint $table) {
             $table->id();
+            $table->boolean('status')->default(false);
             $table->string('nome_completo');
             $table->string('nome_social')->nullable();
             $table->string('email')->nullable();
@@ -29,6 +30,7 @@ return new class extends Migration
             $table->string('estado');
             $table->string('cidade');
             $table->string('portfolio')->nullable();
+            $table->string('imagem_perfil')->nullable();
             $table->timestamps();
         });
     }

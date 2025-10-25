@@ -69,21 +69,19 @@
                                 </div>
 
                                 <div class="col-md-8">
-                                    <input type="text" id="texto" name="texto" class="form-control" placeholder="Nome, e-mail ou CNPJ" required>
+                                    <input type="text" id="texto" name="texto" class="form-control" placeholder="Nome, e-mail ou CNPJ" value="{{ request('texto') }}">
                                 </div>
 
-                                {{-- Situação --}}
                                 <div class="col-md-2">
-                                    <select class="form-select" id="situacao" name="situacao">
-                                        <option value="" @selected(request('situacao')=='' )>Situação</option>
-                                        <option value="ativo" @selected(request('situacao')=='ativo' )>Ativo</option>
-                                        <option value="inativo" @selected(request('situacao')=='inativo' )>Inativo</option>
+                                    <select class="form-select" id="status" name="status">
+                                        <option value="" @selected(request('situacao')=='')>Status</option>
+                                        <option value="true" @selected(request('status') == 'true')>Ativo</option>
+                                        <option value="false" @selected(request('status') == 'false')>Inativo</option>
                                     </select>
                                 </div>
 
-                                {{-- Botões --}}
                                 <div class="col-md-2 d-flex gap-2">
-                                    <a class="btn btn-outline btn-dark px-4" id="buscarFiltros">
+                                    <button type="submit" class="btn btn-outline btn-dark px-4" id="buscarFiltros">
                                         <span>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-search">
                                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -92,8 +90,8 @@
                                             </svg>
                                         </span>
                                         Buscar
-                                    </a>
-                                    <a class="btn btn-light px-3" id="limparFiltros">
+                                    </button>
+                                    <a href="{{ route('ongs.index') }}" class="btn btn-light px-3">
                                         Limpar
                                     </a>
                                 </div>
@@ -118,7 +116,7 @@
                                     <th class="text-nowrap text-black py-3">Nome fantasia</th>
                                     <th class="text-nowrap text-black py-3">E-mail</th>
                                     <th class="text-nowrap text-black py-3">CNPJ</th>
-                                    <th class="text-nowrap text-black py-3">Status</th>
+                                    <th class="text-nowrap text-black text-center py-3">Status</th>
                                     <th class="text-nowrap text-black py-3">Ações</th>
                                 </tr>
                             </thead>
@@ -130,16 +128,51 @@
                                 @else
                                     @foreach($ongs as $ong)
                                     <tr>
-                                        <td>{{ $ong->nome_completo }}</td>
-                                        <td>{{ $ong->email }}</td>
-                                        <td>{{ $ong->status }}</td>
+                                        <td>{{ $ong->nome_organizacao }}</td>
+                                        <td>{{ $ong->nome_organizacao }}</td>
+                                        <td>{{ $ong->email_principal }}</td>
+                                        <td>{{ $ong->cnpj ?? "--" }}</td>
+                                        <td class="text-center">
+                                            @if($ong->status === 1)
+                                                <span class="badge rounded-pill bg-green-lt badge-lg">Ativo</span>
+                                            @else
+                                                <span class="badge rounded-pill bg-red-lt badge-lg">Inativo</span>
+                                            @endif
+                                        </td>
                                         <td>
-                                            <a href="{{ route('ongs.edit', $ong) }}" class="btn btn-sm btn-primary">Editar</a>
-                                            <button onclick="confirmDelete({{ $ong->id }})" class="btn btn-sm btn-danger">Excluir</button>
-                                            <form id="delete-form-{{ $ong->id }}" action="{{ route('ongs.destroy', $ong) }}" method="POST" class="d-none">
-                                                @csrf
-                                                @method('DELETE')
-                                            </form>
+                                            <a href="{{ route('ongs.details', $ong) }}" class="btn btn-outline btn-secondary me-2">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-eye">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+                                                    <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+                                                </svg>
+                                                Ver detalhes
+                                            </a>
+                                            <a href="{{ route('ongs.edit', $ong) }}" class="btn btn-outline btn-dark me-8">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                                    <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+                                                    <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+                                                    <path d="M16 5l3 3" />
+                                                </svg>
+                                                Editar
+                                            </a>
+
+                                            @if ($ong->status === 1)
+                                                <a href="{{ route('ongs.disable', $ong) }}">
+                                                    <span class="status-btn status-inativo">
+                                                        <span class="status-circle"></span>
+                                                        Inativar
+                                                    </span>
+                                                </a>
+                                            @else
+                                                <a href="{{ route('ongs.enable', $ong) }}">
+                                                    <span class="status-btn status-ativo">
+                                                        Ativar
+                                                        <span class="status-circle"></span>
+                                                    </span>
+                                                </a>
+                                            @endif
                                         </td>
                                     </tr>
                                     @endforeach
@@ -201,14 +234,4 @@
             </div>
         </div>
     </div>
-
-    <script>
-        function confirmDelete(id) {
-            if (confirm('Tem certeza que deseja excluir este jovem?')) {
-                if (confirm('Esta ação é irreversível. Deseja realmente excluir?')) {
-                    document.getElementById('delete-form-' + id).submit();
-                }
-            }
-        }
-    </script>
 </x-app-layout>

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('oportunidades', function (Blueprint $table) {
             $table->id();
+            $table->boolean('status')->default(false);
             $table->string('titulo');
             $table->string('tipo');
             $table->string('area_atuacao');

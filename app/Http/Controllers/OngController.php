@@ -10,12 +10,22 @@ class OngController extends Controller
 {
     public function index(Request $request)
     {
-        $search = $request->get('search');
-        $ongs = Ong::when($search, function ($query, $search) {
-            return $query->where('nome_organizacao', 'like', "%{$search}%");
-        })->paginate(10);
+        $ongs = Ong::query()
+            ->when($request->texto, function($query, $texto) {
+                $query->where(function($q) use ($texto) {
+                    $q->where('nome_organizacao', 'like', "%{$texto}%")
+                    ->orWhere('natureza_juridica', 'like', "%{$texto}%")
+                    ->orWhere('email_principal', 'like', "%{$texto}%")
+                    ->orWhere('cnpj', 'like', "%{$texto}%");
+                });
+            })
+            ->when($request->status, function($query, $status) {
+                $query->where('status', $status);
+            })
+            ->paginate(10)
+            ->withQueryString();
 
-        return view('ongs.index', compact('ongs', 'search'));
+        return view('ongs.index', compact('ongs'));
     }
 
     public function create()
@@ -23,41 +33,88 @@ class OngController extends Controller
         return view('ongs.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nome_organizacao' => 'required|string|max:255',
+            'cnpj' => 'nullable|string|max:20',
+            'natureza_juridica' => 'required|string|max:255',
+            'data_fundacao' => 'nullable|date',
+            'area_atuacao' => 'required|string|max:255',
+            'modelo_atuacao' => 'required|string|max:255',
+            'logradouro' => 'required|string|max:255',
+            'bairro' => 'required|string|max:255',
+            'estado' => 'required|string|max:255',
+            'cidade' => 'required|string|max:255',
+            'cep' => 'required|string|max:10',
+            'telefone_fixo' => 'required|string|max:20',
+            'email_principal' => 'required|email|max:255',
+            'site' => 'nullable|string|max:255',
+            'nome_completo_responsavel' => 'required|string|max:255',
+            'cpf_responsavel' => 'required|string|max:20',
+            'cargo_responsavel' => 'required|string|max:255',
+            'email_contato' => 'required|email|max:255',
+        ]);
+
+        Ong::create($validated);
+
+        return redirect()->route('ongs.index')->with('success', 'ONG criada com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function details(Ong $ong)
     {
-        //
+        return view('ongs.details', compact('ong'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Ong $ong)
     {
-        //
+        return view('ongs.edit', compact('ong'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Ong $ong)
     {
-        //
+        $validated = $request->validate([
+            'nome_organizacao' => 'required|string|max:255',
+            'cnpj' => 'nullable|string|max:20',
+            'natureza_juridica' => 'required|string|max:255',
+            'data_fundacao' => 'nullable|date',
+            'area_atuacao' => 'required|string|max:255',
+            'modelo_atuacao' => 'required|string|max:255',
+            'logradouro' => 'required|string|max:255',
+            'bairro' => 'required|string|max:255',
+            'estado' => 'required|string|max:255',
+            'cidade' => 'required|string|max:255',
+            'cep' => 'required|string|max:10',
+            'telefone_fixo' => 'required|string|max:20',
+            'email_principal' => 'required|email|max:255',
+            'site' => 'nullable|string|max:255',
+            'nome_completo_responsavel' => 'required|string|max:255',
+            'cpf_responsavel' => 'required|string|max:20',
+            'cargo_responsavel' => 'required|string|max:255',
+            'email_contato' => 'required|email|max:255',
+        ]);
+
+        $ong->update($validated);
+
+        return redirect()->route('ongs.index')->with('success', 'ONG atualizada com sucesso!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    public function disable(Ong $ongs)
+    {
+      $ongs->status = 0;
+      $ongs->save();
+
+      return redirect()->route('ongs.index')->with('success', 'Inativado com sucesso!');
+    }
+
+    public function enable(Ong $ongs)
+    {
+      $ongs->status = 1;
+      $ongs->save();
+
+      return redirect()->route('ongs.index')->with('success', 'Ativado com sucesso!');
+    }
+
     public function destroy(string $id)
     {
         //

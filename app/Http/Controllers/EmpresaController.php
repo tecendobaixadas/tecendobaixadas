@@ -10,26 +10,29 @@ class EmpresaController extends Controller
 {
     public function index(Request $request)
     {
-        $search = $request->get('search');
-        $empresas = Empresa::when($search, function ($query, $search) {
-            return $query->where('nome_completo', 'like', "%{$search}%")
-                         ->orWhere('email', 'like', "%{$search}%");
-        })->paginate(10);
+        $empresas = Empresa::query()
+            ->when($request->texto, function($query, $texto) {
+                $query->where(function($q) use ($texto) {
+                    $q->where('razao_social', 'like', "%{$texto}%")
+                    ->orWhere('nome_fantasia', 'like', "%{$texto}%")
+                    ->orWhere('email_principal', 'like', "%{$texto}%")
+                    ->orWhere('cnpj', 'like', "%{$texto}%");
+                });
+            })
+            ->when($request->status, function($query, $status) {
+                $query->where('status', $status);
+            })
+            ->paginate(10)
+            ->withQueryString();
 
-        return view('empresas.index', compact('empresas', 'search'));
+        return view('empresas.index', compact('empresas'));
     }
 
-    /**
-     * Exibe o formulário de criação.
-     */
     public function create()
     {
         return view('empresas.create');
     }
 
-    /**
-     * Salva uma nova empresa.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -52,30 +55,40 @@ class EmpresaController extends Controller
             'modelo_atuacao' => 'required|string|max:255',
         ]);
 
-        Empresa::create($validated);
+        $empresa = Empresa::create($validated);
+
+        // Salvar redes sociais
+        if ($request->has('rede')) {
+            foreach ($request->rede as $dadosRede) {
+                if (!empty($dadosRede['nome']) && !empty($dadosRede['link'])) {
+                    $empresa->redes()->create([
+                        'rede' => $dadosRede['nome'],
+                        'link' => $dadosRede['link'],
+                    ]);
+                }
+            }
+        }
+
+        // // Salvar trabalhos
+        // if ($request->has('trabalhos')) {
+        //     foreach ($request->trabalhos as $dadosTrabalho) {
+        //         $empresa->trabalhos()->create($dadosTrabalho);
+        //     }
+        // }
 
         return redirect()->route('empresas.index')->with('success', 'Empresa cadastrada com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function details(Empresa $empresa)
     {
-        //
+        return view('empresas.details', compact('empresa'));
     }
 
-    /**
-     * Exibe o formulário de edição.
-     */
     public function edit(Empresa $empresa)
     {
-        return view('empresas.form', compact('empresa'));
+        return view('empresas.edit', compact('empresa'));
     }
 
-    /**
-     * Atualiza os dados da empresa.
-     */
     public function update(Request $request, Empresa $empresa)
     {
         $validated = $request->validate([
@@ -103,9 +116,22 @@ class EmpresaController extends Controller
         return redirect()->route('empresas.index')->with('success', 'Empresa atualizada com sucesso!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    public function disable(Empresa $empresa)
+    {
+      $empresa->status = 0;
+      $empresa->save();
+
+      return redirect()->route('empresas.index')->with('success', 'Inativado com sucesso!');
+    }
+
+    public function enable(Empresa $empresa)
+    {
+      $empresa->status = 1;
+      $empresa->save();
+
+      return redirect()->route('empresas.index')->with('success', 'Ativado com sucesso!');
+    }
+
     public function destroy(string $id)
     {
         //

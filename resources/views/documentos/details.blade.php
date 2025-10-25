@@ -45,21 +45,8 @@
                                 @endif
 
                                 <div class="row mb-3">
-                                    <div class="col-7 d-flex align-items-center">
+                                    <div class="col">
                                         <h3 class="mb-0">Informações</h3>
-                                    </div>
-                                    <div class="col-5 d-flex gap-3 justify-content-end align-items-center">
-                                        <button type="submit" class="btn btn-dark px-4" form="form" id="submitBtn">
-                                            <span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-device-floppy">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
-                                                    <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                                    <path d="M14 4l0 4l-6 0l0 -4" />
-                                                </svg>
-                                            </span>
-                                            Salvar
-                                        </button>
                                     </div>
                                 </div>
 
@@ -85,13 +72,15 @@
                                     </div>
 
                                     <div class="col-md-6 mb-3">
-                                        <label for="arquivo" class="form-label required">Upload do arquivo</label>
-                                        <input type="file" id="arquivo" name="arquivo" class="form-control" required>
-                                        @if(!empty($documento?->arquivo))
-                                            <small>Arquivo atual:
-                                                <a href="{{ asset('storage/'.$documento->arquivo) }}" target="_blank">Visualizar</a>
-                                            </small>
+                                        <label for="arquivo" class="form-label">Upload do arquivo</label>
+                                        <input type="file" id="arquivo" name="arquivo" class="form-control">
+
+                                        @if(isset($documento->arquivo))
+                                            <a href="{{ Storage::url($documento->arquivo) }}" target="_blank" class="btn btn-dark btn-sm mt-3">
+                                                Visualizar
+                                            </a>
                                         @endif
+
                                     </div>
                                 </div>
                             </form>
@@ -101,4 +90,10 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(function(){
+            $('#form').find('input, select').prop('disabled', true);
+        });
+    </script>
 </x-app-layout>

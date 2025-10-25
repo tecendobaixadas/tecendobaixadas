@@ -33,21 +33,8 @@
                                 @endif
 
                                 <div class="row mb-3">
-                                    <div class="col-7 d-flex align-items-center">
+                                    <div class="col">
                                         <h3 class="mb-0">Informações cadastrais</h3>
-                                    </div>
-                                    <div class="col-5 d-flex gap-3 justify-content-end align-items-center">
-                                        <button type="submit" class="btn btn-dark px-4" form="form" id="submitBtn">
-                                            <span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-device-floppy">
-                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                    <path d="M6 4h10l4 4v10a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2" />
-                                                    <path d="M12 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
-                                                    <path d="M14 4l0 4l-6 0l0 -4" />
-                                                </svg>
-                                            </span>
-                                            Salvar
-                                        </button>
                                     </div>
                                 </div>
 
@@ -143,7 +130,7 @@
 
                                     <div class="col-md-3 mb-3">
                                         <label class="form-label required">CPF</label>
-                                        <input type="text" name="cpf" class="form-control format-" value="{{ old('cpf', $empresa->cpf ?? '') }}" required>
+                                        <input type="text" name="cpf" class="form-control format-cpf" value="{{ old('cpf', $empresa->cpf ?? '') }}" required>
                                     </div>
 
                                     <div class="col-md-3 mb-3">
@@ -159,69 +146,16 @@
 
                                 <div class="row mb-3">
                                     <div class="col d-flex align-items-center">
-                                        <h3 class="mb-0">Redes sociais</h3>
-                                    </div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <div class="row mb-2 rede-item template">
-                                        <div class="col-md-3">
-                                            <label class="form-label">Rede</label>
-                                            <select name="rede[0][nome]" class="form-select">
-                                                <option value="">Selecione</option>
-                                                @foreach(['Facebook', 'Instagram', 'LinkedIn', 'Twitter'] as $s)
-                                                <option value="{{ $s }}">{{ $s }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-
-                                        <div class="col-md-3">
-                                            <label class="form-label">Link</label>
-                                            <input type="text" name="rede[0][link]" class="form-control">
-                                        </div>
-
-                                        <div class="col-md-3 d-flex align-items-end">
-                                            <button type="button" class="btn btn-action px-3 add-rede-btn" id="addRedeBtn">Adicionar Rede Social</button>
-                                            <button type="button" class="btn btn-ghost btn-danger remove-rede d-none">Remover</button>
-                                        </div>
-                                    </div>
-
-                                    <div id="redesWrapper"></div>
-                                </div>
-
-                                <div class="row mb-3">
-                                    <div class="col d-flex align-items-center">
                                         <h3 class="mb-0">Oportunidades</h3>
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-3 mb-3">
-                                        <label for="modelo_atuacao" class="form-label">Modelo de atuação</label>
-                                        <select id="modelo_atuacao" name="modelo_atuacao" class="form-select">
-                                            <option value="">Selecione</option>
-                                            @foreach(['Presencial', 'Online', 'Híbrido'] as $opt)
-                                            <option value="{{ $opt }}" @selected(old('modelo_atuacao', $empresa->modelo_atuacao ?? '') == $opt)>
-                                                {{ $opt }}
-                                            </option>
-                                            @endforeach
-                                        </select>
+                                        <label class="form-label required">Modelo de atuação</label>
+                                        <input type="text" name="modelo_atuacao" class="form-control" value="{{ old('modelo_atuacao', $empresa->modelo_atuacao ?? '') }}" required>
                                     </div>
                                 </div>
-
-                                <div class="row mb-2 trabalho-item template">
-                                    <div class="col-md-3">
-                                        <label class="form-label">Trabalho oferecido</label>
-                                        <input type="text" name="trabalhos[]" class="form-control">
-                                    </div>
-
-                                    <div class="col-md-3 d-flex align-items-end">
-                                        <button type="button" class="btn btn-action px-3 add-trabalho-btn" id="addTrabalhoBtn">Adicionar outro trabalho</button>
-                                        <button type="button" class="btn btn-ghost btn-danger remove-trabalho d-none">Remover</button>
-                                    </div>
-                                </div>
-
-                                <div id="trabalhosWrapper"></div>
                             </form>
                         </div>
                     </div>
@@ -230,69 +164,9 @@
         </div>
     </div>
 
-    <!-- Redes Wrapper -->
     <script>
-        $(document).ready(function(){
-
-            function updateIndexes() {
-                // Reorganiza os índices dos campos name
-                $('#redesWrapper .rede-item').each(function(index) {
-                    index++;
-                    $(this).find('select').attr('name', 'rede[' + index + '][nome]');
-                    $(this).find('input').attr('name', 'rede[' + index + '][link]');
-                });
-            }
-
-            function addRedeRow() {
-                var newRow = $('.rede-item.template').clone();
-                newRow.removeClass('template');
-                newRow.find('input, select').val('');
-                newRow.find('.remove-rede').removeClass('d-none');
-                newRow.find('.add-rede-btn').remove();
-                $('#redesWrapper').append(newRow);
-                updateIndexes();
-            }
-
-            $('#addRedeBtn').click(function(e){
-                e.preventDefault();
-                addRedeRow();
-            });
-
-            $('#redesWrapper').on('click', '.remove-rede', function(){
-                $(this).closest('.rede-item').remove();
-                updateIndexes();
-            });
+        $(function(){
+            $('#form').find('input, select').prop('disabled', true);
         });
     </script>
-
-    <!-- Trabalhos Wrapper -->
-    <script>
-        $(document).ready(function(){
-            function addTrabalhoRow() {
-                // Clonar a linha template
-                var newRow = $('.trabalho-item.template').clone();
-                newRow.removeClass('template'); // remover a classe de template
-                newRow.find('input, select').val(''); // limpar valores
-                newRow.find('.remove-trabalho').removeClass('d-none'); // mostrar botão remover
-                newRow.find('.add-trabalho-btn').remove(); // remover botão "Adicionar" da cópia
-                $('#trabalhosWrapper').append(newRow);
-            }
-
-            $('#addTrabalhoBtn').click(function(e){
-                e.preventDefault();
-                addTrabalhoRow();
-            });
-
-            // Remover linha (exceto template)
-            $('#trabalhosWrapper').on('click', '.remove-trabalho', function(){
-                var row = $(this).closest('.trabalho-item');
-                if (!row.hasClass('template')) {
-                    row.remove();
-                } else {
-                    alert('Esta linha é o modelo base e não pode ser removida.');
-                }
-            });
-        });
-    </script>
-
 </x-app-layout>

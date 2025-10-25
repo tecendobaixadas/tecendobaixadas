@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('ongs', function (Blueprint $table) {
             $table->id();
+            $table->boolean('status')->default(false);
             $table->string('nome_organizacao');
             $table->string('cnpj')->nullable();
             $table->string('natureza_juridica');

@@ -23,41 +23,74 @@ class OportunidadeController extends Controller
         return view('oportunidades.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'titulo' => 'required|string|max:255',
+            'tipo' => 'required|string|max:255',
+            'area_atuacao' => 'required|string|max:255',
+            'organizacao_responsavel' => 'required|string|max:255',
+            'descricao' => 'required|string',
+            'estado' => 'required|string|max:255',
+            'cidade' => 'required|string|max:255',
+            'formato' => 'required|string|max:255',
+            'data_inicio' => 'required|date',
+            'data_termino' => 'nullable|date|after_or_equal:data_inicio',
+            'status' => 'required|string|max:255',
+        ]);
+
+        Oportunidade::create($validated);
+
+        return redirect()->route('oportunidades.index')->with('success', 'Oportunidade criada com sucesso!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function details(Oportunidade $oportunidade)
     {
-        //
+        return view('oportunidades.details', compact('oportunidade'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Oportunidade $oportunidade)
     {
-        //
+        return view('oportunidades.edit', compact('oportunidade'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Oportunidade $oportunidade)
     {
-        //
+        $validated = $request->validate([
+            'titulo' => 'required|string|max:255',
+            'tipo' => 'required|string|max:255',
+            'area_atuacao' => 'required|string|max:255',
+            'organizacao_responsavel' => 'required|string|max:255',
+            'descricao' => 'required|string',
+            'estado' => 'required|string|max:255',
+            'cidade' => 'required|string|max:255',
+            'formato' => 'required|string|max:255',
+            'data_inicio' => 'required|date',
+            'data_termino' => 'nullable|date|after_or_equal:data_inicio',
+            'status' => 'required|string|max:255',
+        ]);
+
+        $oportunidade->update($validated);
+
+        return redirect()->route('oportunidades.index')->with('success', 'Oportunidade atualizada com sucesso!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    public function disable(Oportunidade $oportunidades)
+    {
+      $oportunidades->status = 0;
+      $oportunidades->save();
+
+      return redirect()->route('oportunidades.index')->with('success', 'Inativado com sucesso!');
+    }
+
+    public function enable(Oportunidade $oportunidades)
+    {
+      $oportunidades->status = 1;
+      $oportunidades->save();
+
+      return redirect()->route('oportunidades.index')->with('success', 'Ativado com sucesso!');
+    }
+
     public function destroy(string $id)
     {
         //

@@ -9,6 +9,8 @@ class Jovem extends Model
 {
     use HasFactory;
 
+    protected $table = 'jovens';
+
     /**
      * Os campos que podem ser preenchidos em massa.
      */
@@ -29,6 +31,7 @@ class Jovem extends Model
         'estado',
         'cidade',
         'portfolio',
+        'imagem_perfil',
     ];
 
     /**
@@ -38,4 +41,9 @@ class Jovem extends Model
         'data_nascimento' => 'date',
         'portador_deficiencia' => 'boolean',
     ];
+
+    public function redes()
+    {
+        return $this->hasMany(JovemRede::class);
+    }
 }

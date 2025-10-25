@@ -16,4 +16,8 @@ class Documento extends Model
         'data_emissao',
         'arquivo',
     ];
+
+    protected $casts = [
+        'data_emissao' => 'date',
+    ];
 }
