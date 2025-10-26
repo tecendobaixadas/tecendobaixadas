@@ -7,6 +7,7 @@ use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\OngController;
 use App\Http\Controllers\OportunidadeController;
 use App\Http\Controllers\DocumentoController;
+use App\Http\Controllers\FileUploadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +41,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/jovens/{jovem}/edit', [JovemController::class, 'edit'])->name('jovens.edit');
     Route::put('/jovens/{jovem}', [JovemController::class, 'update'])->name('jovens.update');
     Route::delete('/jovens/{jovem}', [JovemController::class, 'destroy'])->name('jovens.destroy');
+    Route::post('/jovens/portfolio/upload', [JovemController::class, 'uploadPortfolio'])->name('jovens.portfolio.upload');
     Route::get('/jovens/enable/{jovem}', [JovemController::class, 'enable'])->name('jovens.enable');
     Route::get('/jovens/disable/{jovem}', [JovemController::class, 'disable'])->name('jovens.disable');
 

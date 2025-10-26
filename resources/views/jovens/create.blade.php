@@ -211,7 +211,7 @@
 
                                     <div class="col-md-3 mb-3">
                                         <label for="portfolio" class="form-label">Portfólio</label>
-                                        <input type="file" id="portfolio" name="portfolio" class="form-control @error('portfolio') is-invalid @enderror" value="{{ old('portfolio', $jovem->portfolio ?? '') }}" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg">
+                                        <input type="file" id="portfolio" name="portfolio" class="filepond @error('portfolio') is-invalid @enderror" value="{{ old('portfolio', $jovem->portfolio ?? '') }}" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg">
                                         @error('portfolio')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -337,6 +337,33 @@
                 $(this).closest('.rede-item').remove();
                 updateIndexes();
             });
+        });
+    </script>
+
+    <script>
+        // Transformar o input em FilePond
+        const inputPortfolio = document.querySelector('#portfolio');
+        FilePond.create(inputPortfolio, {
+            labelIdle: 'Arraste e solte seu arquivo ou <span class="filepond--label-action">procure</span>',
+            acceptedFileTypes: [
+                'application/pdf',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'image/png',
+                'image/jpeg',
+                'image/jpg'
+            ],
+            allowMultiple: false,
+            maxFileSize: '2MB',
+            server: {
+                url: '{{ route("jovens.portfolio.upload") }}',
+                process: {
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                },
+                revert: null
+            }
         });
     </script>
 

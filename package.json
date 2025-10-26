@@ -16,6 +16,7 @@
         "vite": "^5.0.0"
     },
     "dependencies": {
-        "@tabler/core": "^1.4.0"
+        "@tabler/core": "^1.4.0",
+        "filepond": "^4.32.9"
     }
 }

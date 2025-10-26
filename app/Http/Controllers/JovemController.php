@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Jovem;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
@@ -54,7 +56,7 @@ class JovemController extends Controller
             'estado'             => 'required|string|max:255',
             'cidade'             => 'required|string|max:255',
             'portador_deficiencia' => 'required|string|max:3',
-            'portfolio'          => 'nullable|file|mimes:pdf,doc,docx,png,jpg,jpeg|max:2048',
+            'portfolio'          => 'nullable|string|max:255',
             'imagem_perfil'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
@@ -66,9 +68,19 @@ class JovemController extends Controller
             $validated['imagem_perfil'] = $request->file('imagem_perfil')->store('imagens_perfil', 'public');
         }
 
-        // Upload do portfólio
-        if ($request->hasFile('portfolio')) {
-            $validated['portfolio'] = $request->file('portfolio')->store('portfolios', 'public');
+        if ($request->portfolio) {
+            $tempPath = $request->portfolio;
+            $absolutePath = storage_path('app/' . $tempPath);
+
+            if (!file_exists($absolutePath)) {
+                abort(404, 'Arquivo temporário não encontrado');
+            }
+
+            // Pasta final no disco public
+            $finalPath = 'portfolios/' . basename($tempPath);
+            Storage::disk('public')->putFileAs('portfolios', new File($absolutePath), basename($tempPath));
+
+            $validated['portfolio'] = $finalPath;
         }
 
         $jovem = Jovem::create($validated);
@@ -119,7 +131,7 @@ class JovemController extends Controller
             'estado'             => 'required|string|max:255',
             'cidade'             => 'required|string|max:255',
             'portador_deficiencia' => 'required|string|max:3',
-            'portfolio'          => 'nullable|file|mimes:pdf,doc,docx,png,jpg,jpeg|max:2048',
+            'portfolio'          => 'nullable|string|max:255',
             'imagem_perfil'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
@@ -135,13 +147,24 @@ class JovemController extends Controller
             $validated['imagem_perfil'] = $request->file('imagem_perfil')->store('imagens_perfil', 'public');
         }
 
-        // Upload do portfólio (se enviado)
-        if ($request->hasFile('portfolio')) {
-            // Apaga o antigo, se existir
-            if ($jovem->portfolio && Storage::disk('public')->exists($jovem->portfolio)) {
+        if ($request->portfolio) {
+            $tempPath = $request->portfolio;
+            $absolutePath = storage_path('app/' . $tempPath);
+
+            if (!file_exists($absolutePath)) {
+                abort(404, 'Arquivo temporário não encontrado');
+            }
+
+            // Deleta o portfolio antigo, se existir
+            if (!empty($jovem->portfolio) && Storage::disk('public')->exists($jovem->portfolio)) {
                 Storage::disk('public')->delete($jovem->portfolio);
             }
-            $validated['portfolio'] = $request->file('portfolio')->store('portfolios', 'public');
+
+            // Pasta final no disco public
+            $finalPath = 'portfolios/' . basename($tempPath);
+            Storage::disk('public')->putFileAs('portfolios', new File($absolutePath), basename($tempPath));
+
+            $validated['portfolio'] = $finalPath;
         }
 
         // Atualiza os dados
@@ -164,6 +187,29 @@ class JovemController extends Controller
         }
 
         return redirect()->route('jovens.index')->with('success', 'Cadastro atualizado com sucesso!');
+    }
+
+    public function uploadPortfolio(Request $request)
+    {
+        $files = $request->allFiles();
+
+        if (empty($files)) {
+            abort(422, 'Nenhum arquivo foi carregado.');
+        }
+
+        if (count($files) > 1) {
+            abort(422, 'Apenas 1 arquivo pode ser carregado por vez.');
+        }
+
+        $requestKey = array_key_first($files);
+
+        $file = is_array($request->input($requestKey))
+            ? $request->file($requestKey)[0]
+            : $request->file($requestKey);
+
+        return $file->store(
+            path: 'tmp/'.now()->timestamp.'-'.Str::random(20)
+        );
     }
 
     public function disable(Jovem $jovem)
