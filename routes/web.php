@@ -7,7 +7,8 @@ use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\OngController;
 use App\Http\Controllers\OportunidadeController;
 use App\Http\Controllers\DocumentoController;
-use App\Http\Controllers\FileUploadController;
+
+use App\Http\Controllers\Jovem\OportunidadeController as JovemOportunidadeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +29,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -88,6 +89,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/documentos/{documento}', [DocumentoController::class, 'destroy'])->name('documentos.destroy');
     Route::get('/documentos/enable/{documento}', [DocumentoController::class, 'enable'])->name('documentos.enable');
     Route::get('/documentos/disable/{documento}', [DocumentoController::class, 'disable'])->name('documentos.disable');
+});
+
+Route::prefix('jovem')->middleware(['auth', 'role:jovem'])->group(function () {
+
+    // === Oportunidades ===
+    Route::get('/oportunidades', [JovemOportunidadeController::class, 'index'])->name('jovem.oportunidades.index');
+
 });
 
 require __DIR__.'/auth.php';

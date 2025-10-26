@@ -15,6 +15,7 @@ class RolePermissionSeeder extends Seeder
             'admin',
             'editor',
             'viewer',
+            'jovem',
         ];
 
         foreach ($roles as $roleName) {

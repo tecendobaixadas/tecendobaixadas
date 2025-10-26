@@ -20,6 +20,11 @@ class AdminUserSeeder extends Seeder
             [
                 'name' => 'Administrador',
                 'password' => Hash::make('admin'),
+                'data_nascimento' => '2000-01-01',
+                'estado' => 'BA',
+                'cidade' => 'Salvador',
+                'aceito_termos' => true,
+                'receber_novidades' => false,
             ]
         );
 
