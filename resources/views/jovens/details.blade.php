@@ -100,7 +100,7 @@
                                     </div>
 
                                     <div class="col-md-3 mb-3">
-                                        <label for="orientacao_sexual" class="form-label">Gênero e Orientação sexual</label>
+                                        <label for="orientacao_sexual" class="form-label">Orientação sexual</label>
                                         <select id="orientacao_sexual" name="orientacao_sexual" class="form-select">
                                             @foreach(['Estudante', 'Trabalhador', 'Estudando e Trabalhando', 'Não trabalho e nem estudo'] as $s)
                                             <option value="{{ $s }}" @selected(old('orientacao_sexual', $jovem->orientacao_sexual ?? '') == $s)>{{ $s }}</option>
