@@ -103,6 +103,13 @@
 
                                 <div class="row">
                                     <div class="col-md-3 mb-3">
+                                        <label for="cep" class="form-label required">CEP</label>
+                                        <input type="text" id="cep" name="cep" class="form-control format-cep" value="{{ old('cep', $ong->cep ?? '') }}" required>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3 mb-3">
                                         <label for="logradouro" class="form-label required">Logradouro</label>
                                         <input type="text" id="logradouro" name="logradouro" class="form-control" value="{{ old('logradouro', $ong->logradouro ?? '') }}" required>
                                     </div>
@@ -120,11 +127,6 @@
                                     <div class="col-md-3 mb-3">
                                         <label for="cidade" class="form-label required">Cidade</label>
                                         <input type="text" id="cidade" name="cidade" class="form-control" value="{{ old('cidade', $ong->cidade ?? '') }}" required>
-                                    </div>
-
-                                    <div class="col-md-3 mb-3">
-                                        <label for="cep" class="form-label required">CEP</label>
-                                        <input type="text" id="cep" name="cep" class="form-control format-cep" value="{{ old('cep', $ong->cep ?? '') }}" required>
                                     </div>
                                 </div>
 
