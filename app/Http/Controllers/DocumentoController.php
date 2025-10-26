@@ -84,18 +84,18 @@ class DocumentoController extends Controller
         return redirect()->route('documentos.index')->with('success', 'Documento atualizado com sucesso!');
     }
 
-    public function disable(Documento $documentos)
+    public function disable(Documento $documento)
     {
-      $documentos->status = 0;
-      $documentos->save();
+      $documento->status = 0;
+      $documento->save();
 
       return redirect()->route('documentos.index')->with('success', 'Inativado com sucesso!');
     }
 
-    public function enable(Documento $documentos)
+    public function enable(Documento $documento)
     {
-      $documentos->status = 1;
-      $documentos->save();
+      $documento->status = 1;
+      $documento->save();
 
       return redirect()->route('documentos.index')->with('success', 'Ativado com sucesso!');
     }
