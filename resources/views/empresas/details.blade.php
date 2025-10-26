@@ -73,28 +73,30 @@
 
                                 <div class="row">
                                     <div class="col-md-3 mb-3">
+                                        <label for="cep" class="form-label required">CEP</label>
+                                        <input type="text" id="cep" name="cep" class="form-control format-cep" value="{{ old('cep', $empresa->cep ?? '') }}" required>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3 mb-3">
                                         <label class="form-label required">Logradouro</label>
-                                        <input type="text" name="logradouro" class="form-control" value="{{ old('logradouro', $empresa->logradouro ?? '') }}" required>
+                                        <input type="text" id="logradouro" name="logradouro" class="form-control" value="{{ old('logradouro', $empresa->logradouro ?? '') }}" required>
                                     </div>
 
                                     <div class="col-md-3 mb-3">
                                         <label class="form-label required">Bairro</label>
-                                        <input type="text" name="bairro" class="form-control" value="{{ old('bairro', $empresa->bairro ?? '') }}" required>
+                                        <input type="text" id="bairro" name="bairro" class="form-control" value="{{ old('bairro', $empresa->bairro ?? '') }}" required>
                                     </div>
 
                                     <div class="col-md-3 mb-3">
                                         <label class="form-label required">Estado</label>
-                                        <input type="text" name="estado" class="form-control" value="{{ old('estado', $empresa->estado ?? '') }}" required>
+                                        <input type="text" id="estado" name="estado" class="form-control" value="{{ old('estado', $empresa->estado ?? '') }}" required>
                                     </div>
 
                                     <div class="col-md-3 mb-3">
                                         <label class="form-label required">Cidade</label>
-                                        <input type="text" name="cidade" class="form-control" value="{{ old('cidade', $empresa->cidade ?? '') }}" required>
-                                    </div>
-
-                                    <div class="col-md-3 mb-3">
-                                        <label class="form-label required">CEP</label>
-                                        <input type="text" name="cep" class="form-control format-cep" value="{{ old('cep', $empresa->cep ?? '') }}" required>
+                                        <input type="text" id="cidade" name="cidade" class="form-control" value="{{ old('cidade', $empresa->cidade ?? '') }}" required>
                                     </div>
                                 </div>
 

@@ -47,5 +47,28 @@
                 $('.format-cnpj').mask('00.000.000/0000-00', {reverse: true});
             });
         </script>
+        <script>
+            $(document).ready(function() {
+                // Quando o usuário sai do campo CEP
+                $('#cep').on('blur', function() {
+                    let cep = $(this).val().replace(/\D/g, ''); // remove caracteres não numéricos
+
+                    if (cep.length === 8) {
+                        $.getJSON(`https://viacep.com.br/ws/${cep}/json/`, function(data) {
+                            if (!("erro" in data)) {
+                                $('#logradouro').val(data.logradouro);
+                                $('#bairro').val(data.bairro);
+                                $('#cidade').val(data.localidade);
+                                $('#estado').val(data.uf);
+                            } else {
+                                alert('CEP não encontrado!');
+                            }
+                        }).fail(function() {
+                            alert('Erro ao consultar o CEP.');
+                        });
+                    }
+                });
+            });
+        </script>
     </body>
 </html>
