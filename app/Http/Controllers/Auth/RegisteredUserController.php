@@ -34,12 +34,22 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'data_nascimento' => ['required', 'date'],
+            'estado' => ['required', 'string', 'max:100'],
+            'cidade' => ['required', 'string', 'max:100'],
+            'aceito_termos' => ['accepted'],
+            'receber_novidades' => ['nullable', 'boolean'],
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'data_nascimento' => $input['data_nascimento'],
+            'estado' => $input['estado'],
+            'cidade' => $input['cidade'],
+            'aceito_termos' => isset($input['aceito_termos']),
+            'receber_novidades' => isset($input['receber_novidades']),
         ]);
 
         event(new Registered($user));
