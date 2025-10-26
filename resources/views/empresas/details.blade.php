@@ -146,16 +146,94 @@
 
                                 <div class="row mb-3">
                                     <div class="col d-flex align-items-center">
+                                        <h3 class="mb-0">Redes sociais</h3>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <!-- Template base (oculto) -->
+                                    <div class="row mb-2 rede-item template">
+                                        <div class="col-md-3">
+                                            <label class="form-label">Rede</label>
+                                            <select name="rede[0][nome]" class="form-select">
+                                                <option value="">Selecione</option>
+                                                @foreach(['Facebook', 'Instagram', 'LinkedIn', 'Twitter'] as $s)
+                                                    <option value="{{ $s }}" @if(isset($empresa->redes[0]) && $empresa->redes[0]->rede == $s) selected @endif>{{ $s }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label class="form-label">Link</label>
+                                            <input type="text" name="rede[0][link]" class="form-control" value="{{ $empresa->redes[0]->link ?? '' }}">
+                                        </div>
+                                    </div>
+
+                                    <!-- Wrapper onde as redes restantes serão exibidas -->
+                                    <div id="redesWrapper">
+                                        @if($empresa->redes && $empresa->redes->count() > 1)
+                                            @foreach($empresa->redes->slice(1) as $index => $rede)
+                                                <div class="row mb-2 rede-item">
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Rede</label>
+                                                        <select name="rede[{{ $index }}][nome]" class="form-select">
+                                                            <option value="">Selecione</option>
+                                                            @foreach(['Facebook', 'Instagram', 'LinkedIn', 'Twitter'] as $s)
+                                                                <option value="{{ $s }}" @selected($rede->rede == $s)>{{ $s }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="col-md-3">
+                                                        <label class="form-label">Link</label>
+                                                        <input type="text" name="rede[{{ $index }}][link]" class="form-control" value="{{ $rede->link }}">
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col d-flex align-items-center">
                                         <h3 class="mb-0">Oportunidades</h3>
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-3 mb-3">
-                                        <label class="form-label required">Modelo de atuação</label>
-                                        <input type="text" name="modelo_atuacao" class="form-control" value="{{ old('modelo_atuacao', $empresa->modelo_atuacao ?? '') }}" required>
+                                        <label for="modelo_atuacao" class="form-label">Modelo de atuação</label>
+                                        <select id="modelo_atuacao" name="modelo_atuacao" class="form-select">
+                                            <option value="">Selecione</option>
+                                            @foreach(['Presencial', 'Online', 'Híbrido'] as $opt)
+                                            <option value="{{ $opt }}" @selected(old('modelo_atuacao', $empresa->modelo_atuacao ?? '') == $opt)>
+                                                {{ $opt }}
+                                            </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
+
+                                <div class="row mb-2 trabalho-item template">
+                                    <div class="col-md-3">
+                                        <label class="form-label">Trabalho oferecido</label>
+                                        <input type="text" name="trabalhos[]" class="form-control" value="{{ $empresa->trabalhos[0]->nome ?? '' }}">
+                                    </div>
+                                </div>
+
+                                <div id="trabalhosWrapper">
+                                    @if($empresa->trabalhos && $empresa->trabalhos->count() > 1)
+                                        @foreach($empresa->trabalhos->slice(1) as $index => $trabalho)
+                                            <div class="row mb-2 trabalho-item">
+                                                <div class="col-md-3">
+                                                    <label class="form-label">Trabalho oferecido</label>
+                                                    <input type="text" name="trabalhos[]" class="form-control" value="{{ $trabalho->nome ?? '' }}">
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @endif
+                                </div>
+
                             </form>
                         </div>
                     </div>

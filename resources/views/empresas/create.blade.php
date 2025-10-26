@@ -23,6 +23,18 @@
     <div class="page-body">
         <div class="container-xl">
             <div class="row row-cards">
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <strong>Ops! Encontramos alguns erros:</strong>
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $erro)
+                                <li>{{ $erro }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <div class="col">
                     <div class="card">
                         <div class="card-body">

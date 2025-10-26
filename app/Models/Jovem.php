@@ -11,9 +11,6 @@ class Jovem extends Model
 
     protected $table = 'jovens';
 
-    /**
-     * Os campos que podem ser preenchidos em massa.
-     */
     protected $fillable = [
         'nome_completo',
         'nome_social',
@@ -34,9 +31,6 @@ class Jovem extends Model
         'imagem_perfil',
     ];
 
-    /**
-     * Conversão automática de tipos de dados.
-     */
     protected $casts = [
         'data_nascimento' => 'date',
         'portador_deficiencia' => 'boolean',

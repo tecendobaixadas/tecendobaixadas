@@ -27,7 +27,7 @@
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <strong>Ops! Encontramos alguns erros:</strong>
-                        <ul class="mb-0 mt-2">
+                        <ul class="mb-0">
                             @foreach ($errors->all() as $erro)
                                 <li>{{ $erro }}</li>
                             @endforeach
@@ -160,7 +160,7 @@
                                         <select id="situacao_atual" name="situacao_atual" class="form-select">
                                             <option value="">Selecione</option>
                                             @foreach(['Desempregado', 'CLT', 'Pessoa Jurídica (PJ)', 'Bolsista', 'Estagiário'] as $opt)
-                                            <option value="{{ $opt }}" @selected(old('raca', $jovem->situacao_atual ?? '') == $opt)>
+                                            <option value="{{ $opt }}" @selected(old('situacao_atual', $jovem->situacao_atual ?? '') == $opt)>
                                                 {{ $opt }}
                                             </option>
                                             @endforeach

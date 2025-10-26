@@ -72,12 +72,14 @@
                                     <input type="text" id="texto" name="texto" class="form-control" placeholder="Título" required>
                                 </div>
 
-                                {{-- Situação --}}
                                 <div class="col-md-2">
                                     <select class="form-select" id="situacao" name="situacao">
                                         <option value="" @selected(request('situacao')=='' )>Tipo</option>
-                                        <option value="ativo" @selected(request('situacao')=='ativo' )>Ativo</option>
-                                        <option value="inativo" @selected(request('situacao')=='inativo' )>Inativo</option>
+                                        @foreach(['Contrato', 'Relatório'] as $opt)
+                                        <option value="{{ $opt }}" @selected(request('situacao')) == $opt)>
+                                            {{ $opt }}
+                                        </option>
+                                        @endforeach
                                     </select>
                                 </div>
 
@@ -99,12 +101,11 @@
                                     </select>
                                 </div>
 
-                                {{-- Situação --}}
                                 <div class="col-md-1">
-                                    <select class="form-select" id="situacao" name="situacao">
-                                        <option value="" @selected(request('situacao')=='' )>Status</option>
-                                        <option value="ativo" @selected(request('situacao')=='ativo' )>Ativo</option>
-                                        <option value="inativo" @selected(request('situacao')=='inativo' )>Inativo</option>
+                                    <select class="form-select" id="status" name="status">
+                                        <option value="" @selected(request('situacao')=='')>Status</option>
+                                        <option value="true" @selected(request('status') == 'true')>Ativo</option>
+                                        <option value="false" @selected(request('status') == 'false')>Inativo</option>
                                     </select>
                                 </div>
 

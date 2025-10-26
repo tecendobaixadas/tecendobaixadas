@@ -23,18 +23,6 @@
     <div class="page-body">
         <div class="container-xl">
             <div class="row row-cards">
-
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <strong>Ops! Encontramos alguns erros:</strong>
-                        <ul class="mb-0 mt-2">
-                            @foreach ($errors->all() as $erro)
-                                <li>{{ $erro }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
@@ -58,7 +46,14 @@
 
                                     <div class="col-md-3 mb-3">
                                         <label for="tipo" class="form-label required">Tipo</label>
-                                        <input type="text" id="tipo" name="tipo" class="form-control" value="{{ old('tipo', $documento->tipo ?? '') }}" required>
+                                        <select id="tipo" name="tipo" class="form-select" required>
+                                            <option value="">Selecione</option>
+                                            @foreach(['Contrato', 'Relatório'] as $opt)
+                                            <option value="{{ $opt }}" @selected(old('tipo', $documento->tipo ?? '') == $opt)>
+                                                {{ $opt }}
+                                            </option>
+                                            @endforeach
+                                        </select>
                                     </div>
 
                                     <div class="col-md-3 mb-3">

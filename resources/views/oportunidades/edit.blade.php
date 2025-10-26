@@ -23,6 +23,18 @@
     <div class="page-body">
         <div class="container-xl">
             <div class="row row-cards">
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <strong>Ops! Encontramos alguns erros:</strong>
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $erro)
+                                <li>{{ $erro }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
@@ -59,7 +71,14 @@
 
                                     <div class="col-md-3 mb-3">
                                         <label for="tipo" class="form-label required">Tipo de oportunidade</label>
-                                        <input type="text" id="tipo" name="tipo" class="form-control" value="{{ old('tipo', $oportunidade->tipo ?? '') }}" required>
+                                        <select id="tipo" name="tipo" class="form-select" required>
+                                            <option value="">Selecione</option>
+                                            @foreach(['Voluntário', 'Remunerado'] as $opt)
+                                            <option value="{{ $opt }}" @selected(old('tipo', $oportunidade->tipo ?? '') == $opt)>
+                                                {{ $opt }}
+                                            </option>
+                                            @endforeach
+                                        </select>
                                     </div>
 
                                     <div class="col-md-3 mb-3">
@@ -120,7 +139,11 @@
 
                                     <div class="col-md-3 mb-3">
                                         <label for="status" class="form-label required">Status</label>
-                                        <input type="text" id="status" name="status" class="form-control" value="{{ old('status', $oportunidade->status ?? '') }}" required>
+                                        <select class="form-select" id="status" name="status" required>
+                                            <option value="">Selecione</option>
+                                            <option value="1" @selected(old('status', $oportunidade->status ?? '') == 1)>Ativo</option>
+                                            <option value="0" @selected(old('status', $oportunidade->status ?? '') == 0)>Inativo</option>
+                                        </select>
                                     </div>
                                 </div>
                             </form>

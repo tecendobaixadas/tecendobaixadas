@@ -31,4 +31,18 @@ class Empresa extends Model
         'email_contato',
         'modelo_atuacao',
     ];
+
+    protected $casts = [
+        'data_fundacao' => 'date',
+    ];
+
+    public function redes()
+    {
+        return $this->hasMany(EmpresaRede::class);
+    }
+
+    public function trabalhos()
+    {
+        return $this->hasMany(EmpresaTrabalho::class);
+    }
 }

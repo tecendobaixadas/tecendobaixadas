@@ -69,12 +69,14 @@ class EmpresaController extends Controller
             }
         }
 
-        // // Salvar trabalhos
-        // if ($request->has('trabalhos')) {
-        //     foreach ($request->trabalhos as $dadosTrabalho) {
-        //         $empresa->trabalhos()->create($dadosTrabalho);
-        //     }
-        // }
+        // Salvar trabalhos
+        if ($request->has('trabalhos')) {
+            foreach ($request->trabalhos as $trabalho) {
+                $empresa->trabalhos()->create([
+                    'nome' => $trabalho
+                ]);
+            }
+        }
 
         return redirect()->route('empresas.index')->with('success', 'Empresa cadastrada com sucesso!');
     }
@@ -112,6 +114,35 @@ class EmpresaController extends Controller
         ]);
 
         $empresa->update($validated);
+
+        // Atualiza redes sociais (se houver)
+        if ($request->has('rede')) {
+            // Remove as antigas
+            $empresa->redes()->delete();
+
+            // Adiciona novamente
+            foreach ($request->rede as $dadosRede) {
+                if (!empty($dadosRede['nome']) && !empty($dadosRede['link'])) {
+                    $empresa->redes()->create([
+                        'rede' => $dadosRede['nome'],
+                        'link' => $dadosRede['link'],
+                    ]);
+                }
+            }
+        }
+
+        // Atualiza trabalhos sociais (se houver)
+        if ($request->has('trabalhos')) {
+            // Remove as antigas
+            $empresa->trabalhos()->delete();
+
+            // Adiciona novamente
+            foreach ($request->trabalhos as $trabalho) {
+                $empresa->trabalhos()->create([
+                    'nome' => $trabalho
+                ]);
+            }
+        }
 
         return redirect()->route('empresas.index')->with('success', 'Empresa atualizada com sucesso!');
     }

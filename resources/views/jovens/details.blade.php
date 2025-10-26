@@ -23,18 +23,6 @@
     <div class="page-body">
         <div class="container-xl">
             <div class="row row-cards">
-
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <strong>Ops! Encontramos alguns erros:</strong>
-                        <ul class="mb-0 mt-2">
-                            @foreach ($errors->all() as $erro)
-                                <li>{{ $erro }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
@@ -143,7 +131,7 @@
                                         <select id="situacao_atual" name="situacao_atual" class="form-select">
                                             <option value="">Selecione</option>
                                             @foreach(['Desempregado', 'CLT', 'Pessoa Jurídica (PJ)', 'Bolsista', 'Estagiário'] as $opt)
-                                            <option value="{{ $opt }}" @selected(old('raca', $jovem->situacao_atual ?? '') == $opt)>
+                                            <option value="{{ $opt }}" @selected(old('situacao_atual', $jovem->situacao_atual ?? '') == $opt)>
                                                 {{ $opt }}
                                             </option>
                                             @endforeach

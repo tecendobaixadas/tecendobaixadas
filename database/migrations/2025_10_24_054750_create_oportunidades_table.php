@@ -24,7 +24,6 @@ return new class extends Migration
             $table->string('formato');
             $table->date('data_inicio');
             $table->date('data_termino')->nullable();
-            $table->string('status');
             $table->timestamps();
         });
     }
