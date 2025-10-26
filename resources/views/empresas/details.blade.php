@@ -204,8 +204,8 @@
 
                                 <div class="row">
                                     <div class="col-md-3 mb-3">
-                                        <label for="modelo_atuacao" class="form-label">Modelo de atuação</label>
-                                        <select id="modelo_atuacao" name="modelo_atuacao" class="form-select">
+                                        <label for="modelo_atuacao" class="form-label required">Modelo de atuação</label>
+                                        <select id="modelo_atuacao" name="modelo_atuacao" class="form-select required">
                                             <option value="">Selecione</option>
                                             @foreach(['Presencial', 'Online', 'Híbrido'] as $opt)
                                             <option value="{{ $opt }}" @selected(old('modelo_atuacao', $empresa->modelo_atuacao ?? '') == $opt)>
