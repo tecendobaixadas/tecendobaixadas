@@ -211,7 +211,12 @@
 
                                     <div class="col-md-3 mb-3">
                                         <label for="portfolio" class="form-label">Portfólio</label>
-                                        <input type="file" id="portfolio" name="portfolio" class="form-control" value="{{ old('portfolio', $jovem->portfolio ?? '') }}" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg">
+                                        <input type="file" id="portfolio" name="portfolio" class="form-control @error('portfolio') is-invalid @enderror" value="{{ old('portfolio', $jovem->portfolio ?? '') }}" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg">
+                                        @error('portfolio')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
 
                                         @if(isset($jovem->portfolio))
                                             <a href="{{ Storage::url($jovem->portfolio) }}" target="_blank" class="btn btn-dark btn-sm mt-3">
