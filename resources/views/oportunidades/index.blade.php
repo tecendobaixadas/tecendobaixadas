@@ -20,7 +20,8 @@
                             </svg>
                             <span class="d-none d-sm-flex">Cadastrar oportunidade</span>
                         </a>
-                        <span class="d-none d-sm-inline">
+                        <!-- <span class="d-none d-sm-inline"> -->
+                        <span class="d-none d-sm-none">
                             <a href="#" class="btn btn-1">
                                 <!-- Download SVG icon from http://tabler.io/icons/icon/file-export -->
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-export">
@@ -159,7 +160,7 @@
                                         <td>{{ $oportunidade->titulo }}</td>
                                         <td>{{ $oportunidade->tipo }}</td>
                                         <td>{{ $oportunidade->area_atuacao }}</td>
-                                        <td>{{ $oportunidade->organizacao_responsavel }}</td>
+                                        <td>{{ $oportunidade->organizacao->nome_fantasia ?? $oportunidade->organizacao->razao_social ?? $oportunidade->organizacao->nome_organizacao ?? '--' }}</td>
                                         <td class="text-center">
                                             @if($oportunidade->status === 1)
                                                 <span class="badge rounded-pill bg-green-lt badge-lg">Ativo</span>

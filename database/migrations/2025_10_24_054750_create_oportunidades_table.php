@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('titulo');
             $table->string('tipo');
             $table->string('area_atuacao');
-            $table->string('organizacao_responsavel');
+            $table->unsignedBigInteger('organizacao_id');
+            $table->string('organizacao_type'); // 'empresa' ou 'ong'
             $table->text('descricao');
             $table->string('estado');
             $table->string('cidade');

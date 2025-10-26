@@ -93,13 +93,25 @@
 
                                             <optgroup label="Empresas">
                                                 @foreach($empresas as $empresa)
-                                                    <option value="{{ $empresa->nome }}" @selected(old('organizacao_responsavel') == $empresa->nome)>{{ $empresa->nome }}</option>
+                                                    @php
+                                                        $valor = App\Models\Empresa::class . '|' . $empresa->id;
+                                                        $selecionado = old('organizacao_responsavel', $oportunidade->organizacao_type . '|' . $oportunidade->organizacao_id) == $valor;
+                                                    @endphp
+                                                    <option value="{{ $valor }}" @selected($selecionado)>
+                                                        {{ $empresa->nome_fantasia ?? $empresa->razao_social }}
+                                                    </option>
                                                 @endforeach
                                             </optgroup>
 
                                             <optgroup label="ONGs">
                                                 @foreach($ongs as $ong)
-                                                    <option value="{{ $ong->nome_organizacao }}" @selected(old('organizacao_responsavel') == $ong->nome_organizacao)>{{ $ong->nome_organizacao }}</option>
+                                                    @php
+                                                        $valor = App\Models\Ong::class . '|' . $ong->id;
+                                                        $selecionado = old('organizacao_responsavel', $oportunidade->organizacao_type . '|' . $oportunidade->organizacao_id) == $valor;
+                                                    @endphp
+                                                    <option value="{{ $valor }}" @selected($selecionado)>
+                                                        {{ $ong->nome_organizacao }}
+                                                    </option>
                                                 @endforeach
                                             </optgroup>
                                         </select>

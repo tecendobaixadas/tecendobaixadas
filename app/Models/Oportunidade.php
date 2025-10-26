@@ -13,7 +13,8 @@ class Oportunidade extends Model
         'titulo',
         'tipo',
         'area_atuacao',
-        'organizacao_responsavel',
+        'organizacao_id',
+        'organizacao_type',
         'descricao',
         'estado',
         'cidade',
@@ -22,4 +23,15 @@ class Oportunidade extends Model
         'data_termino',
         'status',
     ];
+
+    protected $casts = [
+        'data_inicio' => 'date',
+        'data_termino' => 'date',
+    ];
+
+    // Polimórfico para acessar Empresa ou Ong
+    public function organizacao()
+    {
+        return $this->morphTo(__FUNCTION__, 'organizacao_type', 'organizacao_id');
+    }
 }

@@ -44,6 +44,13 @@ class OportunidadeController extends Controller
             'status' => 'required|string|max:255',
         ]);
 
+        // Organiza para salvar id e tipo
+        $organizacao = explode('|', $validated['organizacao_responsavel']); // ex: "empresa|1"
+        $validated['organizacao_type'] = $organizacao[0] == 'empresa' ? Empresa::class : Ong::class;
+        $validated['organizacao_id'] = $organizacao[1];
+
+        unset($validated['organizacao_responsavel']);
+
         Oportunidade::create($validated);
 
         return redirect()->route('oportunidades.index')->with('success', 'Oportunidade criada com sucesso!');
@@ -80,6 +87,13 @@ class OportunidadeController extends Controller
             'data_termino' => 'nullable|date|after_or_equal:data_inicio',
             'status' => 'required|string|max:255',
         ]);
+
+        // Organiza para salvar id e tipo
+        $organizacao = explode('|', $validated['organizacao_responsavel']); // ex: "empresa|1"
+        $validated['organizacao_type'] = $organizacao[0] == 'empresa' ? Empresa::class : Ong::class;
+        $validated['organizacao_id'] = $organizacao[1];
+
+        unset($validated['organizacao_responsavel']);
 
         $oportunidade->update($validated);
 

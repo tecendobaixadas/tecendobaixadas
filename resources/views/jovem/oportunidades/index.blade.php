@@ -171,7 +171,7 @@
 
                                                     <h3 class="h1 mb-3">{{ $dado->titulo }}</h3>
 
-                                                    <p class="mb-1">{{ $dado->organizacao_responsavel->nome }}</p>
+                                                    <p class="mb-1">{{ $dado->organizacao->nome_fantasia ?? $dado->organizacao->razao_social ?? $dado->organizacao->nome_organizacao ?? '--' }}</p>
 
                                                     <div class="d-flex align-items-center mb-3">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-map-pin">

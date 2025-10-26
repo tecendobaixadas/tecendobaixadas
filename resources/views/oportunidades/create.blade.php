@@ -93,13 +93,17 @@
 
                                             <optgroup label="Empresas">
                                                 @foreach($empresas as $empresa)
-                                                    <option value="{{ $empresa->nome }}" @selected(old('organizacao_responsavel') == $empresa->nome)>{{ $empresa->nome }}</option>
+                                                    <option value="empresa|{{ $empresa->id }}" @selected(old('organizacao_responsavel') == "empresa|{$empresa->id}")>
+                                                        {{ $empresa->nome_fantasia }}
+                                                    </option>
                                                 @endforeach
                                             </optgroup>
 
                                             <optgroup label="ONGs">
                                                 @foreach($ongs as $ong)
-                                                    <option value="{{ $ong->nome_organizacao }}" @selected(old('organizacao_responsavel') == $ong->nome_organizacao)>{{ $ong->nome_organizacao }}</option>
+                                                    <option value="ong|{{ $ong->id }}" @selected(old('organizacao_responsavel') == "ong|{$ong->id}")>
+                                                        {{ $ong->nome_organizacao }}
+                                                    </option>
                                                 @endforeach
                                             </optgroup>
                                         </select>
