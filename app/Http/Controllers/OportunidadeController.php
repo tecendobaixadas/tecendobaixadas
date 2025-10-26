@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ong;
+use App\Models\Empresa;
 use App\Models\Oportunidade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -20,7 +22,10 @@ class OportunidadeController extends Controller
 
     public function create()
     {
-        return view('oportunidades.create');
+        $empresas = Empresa::where('status', 1)->get();
+        $ongs = Ong::where('status', 1)->get();
+
+        return view('oportunidades.create', compact('empresas', 'ongs'));
     }
 
     public function store(Request $request)
@@ -46,12 +51,18 @@ class OportunidadeController extends Controller
 
     public function details(Oportunidade $oportunidade)
     {
-        return view('oportunidades.details', compact('oportunidade'));
+        $empresas = Empresa::where('status', 1)->get();
+        $ongs = Ong::where('status', 1)->get();
+
+        return view('oportunidades.details', compact('oportunidade', 'empresas', 'ongs'));
     }
 
     public function edit(Oportunidade $oportunidade)
     {
-        return view('oportunidades.edit', compact('oportunidade'));
+        $empresas = Empresa::where('status', 1)->get();
+        $ongs = Ong::where('status', 1)->get();
+
+        return view('oportunidades.edit', compact('oportunidade', 'empresas', 'ongs'));
     }
 
     public function update(Request $request, Oportunidade $oportunidade)

@@ -88,7 +88,21 @@
 
                                     <div class="col-md-3 mb-3">
                                         <label for="organizacao_responsavel" class="form-label required">Organização responsável</label>
-                                        <input type="text" id="organizacao_responsavel" name="organizacao_responsavel" class="form-control" value="{{ old('organizacao_responsavel', $oportunidade->organizacao_responsavel ?? '') }}" required>
+                                        <select id="organizacao_responsavel" name="organizacao_responsavel" class="select-optgroups" required>
+                                            <option value="">Selecione</option>
+
+                                            <optgroup label="Empresas">
+                                                @foreach($empresas as $empresa)
+                                                    <option value="{{ $empresa->nome }}" @selected(old('organizacao_responsavel') == $empresa->nome)>{{ $empresa->nome }}</option>
+                                                @endforeach
+                                            </optgroup>
+
+                                            <optgroup label="ONGs">
+                                                @foreach($ongs as $ong)
+                                                    <option value="{{ $ong->nome_organizacao }}" @selected(old('organizacao_responsavel') == $ong->nome_organizacao)>{{ $ong->nome_organizacao }}</option>
+                                                @endforeach
+                                            </optgroup>
+                                        </select>
                                     </div>
 
                                     <div class="col-md-12 mb-3">
@@ -153,4 +167,31 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var el;
+            window.TomSelect &&
+            new TomSelect((el = document.getElementById("select-optgroups")), {
+                copyClassesToDropdown: false,
+                dropdownParent: "body",
+                controlInput: "<input>",
+                render: {
+                    item: function (data, escape) {
+                        if (data.customProperties) {
+                            return '<div><span class="dropdown-item-indicator">' + data.customProperties + "</span>" + escape(data.text) + "</div>";
+                        }
+                        return "<div>" + escape(data.text) + "</div>";
+                    },
+                    option: function (data, escape) {
+                        if (data.customProperties) {
+                            return '<div><span class="dropdown-item-indicator">' + data.customProperties + "</span>" + escape(data.text) + "</div>";
+                        }
+                        return "<div>" + escape(data.text) + "</div>";
+                    },
+                },
+            });
+        });
+    </script>
+
 </x-app-layout>
