@@ -47,7 +47,7 @@ class JovemController extends Controller
             'orientacao_sexual'  => 'nullable|string|max:255',
             'genero'             => 'required|string|max:255',
             'raca'               => 'required|string|max:50',
-            'situacao_atual'     => 'required|string|max:255',
+            'situacao_atual'     => 'nullable|string|max:255',
             'escolaridade'       => 'nullable|string|max:255',
             'oportunidades'      => 'nullable|string|max:255',
             'interesse'          => 'nullable|string|max:255',
@@ -112,7 +112,7 @@ class JovemController extends Controller
             'orientacao_sexual'  => 'nullable|string|max:255',
             'genero'             => 'required|string|max:255',
             'raca'               => 'required|string|max:50',
-            'situacao_atual'     => 'required|string|max:255',
+            'situacao_atual'     => 'nullable|string|max:255',
             'escolaridade'       => 'nullable|string|max:255',
             'oportunidades'      => 'nullable|string|max:255',
             'interesse'          => 'nullable|string|max:255',
@@ -122,11 +122,6 @@ class JovemController extends Controller
             'portfolio'          => 'nullable|file|mimes:pdf,doc,docx,png,jpg,jpeg|max:2048',
             'imagem_perfil'      => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
-
-        // Se for edição e não tiver portfolio, torna obrigatório
-        if (!isset($jovem) || empty($jovem->portfolio)) {
-            $rules['portfolio'] = 'required|file|mimes:pdf,doc,docx,png,jpg,jpeg|max:2048';
-        }
 
         // Converte "Sim" / "Não" para boolean (1/0)
         $validated['portador_deficiencia'] = $request->portador_deficiencia === 'Sim' ? 1 : 0;

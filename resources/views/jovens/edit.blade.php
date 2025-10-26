@@ -210,8 +210,8 @@
                                     </div>
 
                                     <div class="col-md-3 mb-3">
-                                        <label for="portfolio" class="form-label{{ isset($jovem->portfolio) ? '' : ' required' }}">Portfólio</label>
-                                        <input type="file" id="portfolio" name="portfolio" class="form-control" value="{{ old('portfolio', $jovem->portfolio ?? '') }}" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"{{ isset($jovem->portfolio) ? '' : ' required' }}>
+                                        <label for="portfolio" class="form-label">Portfólio</label>
+                                        <input type="file" id="portfolio" name="portfolio" class="form-control" value="{{ old('portfolio', $jovem->portfolio ?? '') }}" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg">
 
                                         @if(isset($jovem->portfolio))
                                             <a href="{{ Storage::url($jovem->portfolio) }}" target="_blank" class="btn btn-dark btn-sm mt-3">
