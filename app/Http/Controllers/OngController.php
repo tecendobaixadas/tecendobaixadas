@@ -99,18 +99,18 @@ class OngController extends Controller
         return redirect()->route('ongs.index')->with('success', 'ONG atualizada com sucesso!');
     }
 
-    public function disable(Ong $ongs)
+    public function disable(Ong $ong)
     {
-      $ongs->status = 0;
-      $ongs->save();
+        $ong->status = 0;
+        $ong->save();
 
-      return redirect()->route('ongs.index')->with('success', 'Inativado com sucesso!');
+        return redirect()->route('ongs.index')->with('success', 'Inativado com sucesso!');
     }
 
-    public function enable(Ong $ongs)
+    public function enable(Ong $ong)
     {
-      $ongs->status = 1;
-      $ongs->save();
+      $ong->status = 1;
+      $ong->save();
 
       return redirect()->route('ongs.index')->with('success', 'Ativado com sucesso!');
     }

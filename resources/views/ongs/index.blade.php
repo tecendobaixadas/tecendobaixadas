@@ -104,11 +104,12 @@
 
             <div class="row row-cards">
                 <div class="col">
+
+                    @if(session('success'))
+                        <div class="alert alert-success">{{ session('success') }}</div>
+                    @endif
+
                     <div class="card">
-                        @if(session('success'))
-                            <div class="alert alert-success">{{ session('success') }}</div>
-                        @endif
-            
                         <table class="table table-hover table-vcenter mb-0">
                             <thead>
                                 <tr>
