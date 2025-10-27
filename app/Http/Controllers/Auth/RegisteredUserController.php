@@ -45,12 +45,14 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'data_nascimento' => $input['data_nascimento'],
-            'estado' => $input['estado'],
-            'cidade' => $input['cidade'],
-            'aceito_termos' => isset($input['aceito_termos']),
-            'receber_novidades' => isset($input['receber_novidades']),
+            'data_nascimento' => $request->data_nascimento,
+            'estado' => $request->estado,
+            'cidade' => $request->cidade,
+            'aceito_termos' => isset($request->aceito_termos),
+            'receber_novidades' => isset($request->receber_novidades),
         ]);
+
+        $user->assignRole('jovem');
 
         event(new Registered($user));
 
