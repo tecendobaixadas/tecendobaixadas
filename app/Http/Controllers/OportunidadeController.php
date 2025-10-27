@@ -100,18 +100,18 @@ class OportunidadeController extends Controller
         return redirect()->route('oportunidades.index')->with('success', 'Oportunidade atualizada com sucesso!');
     }
 
-    public function disable(Oportunidade $oportunidades)
+    public function disable(Oportunidade $oportunidade)
     {
-      $oportunidades->status = 0;
-      $oportunidades->save();
+      $oportunidade->status = 0;
+      $oportunidade->save();
 
       return redirect()->route('oportunidades.index')->with('success', 'Inativado com sucesso!');
     }
 
-    public function enable(Oportunidade $oportunidades)
+    public function enable(Oportunidade $oportunidade)
     {
-      $oportunidades->status = 1;
-      $oportunidades->save();
+      $oportunidade->status = 1;
+      $oportunidade->save();
 
       return redirect()->route('oportunidades.index')->with('success', 'Ativado com sucesso!');
     }
