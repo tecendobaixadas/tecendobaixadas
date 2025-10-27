@@ -72,9 +72,11 @@ class EmpresaController extends Controller
         // Salvar trabalhos
         if ($request->has('trabalhos')) {
             foreach ($request->trabalhos as $trabalho) {
-                $empresa->trabalhos()->create([
-                    'nome' => $trabalho
-                ]);
+                if (!empty($trabalho)) {
+                    $empresa->trabalhos()->create([
+                        'nome' => $trabalho,
+                    ]);
+                }
             }
         }
 
@@ -138,9 +140,11 @@ class EmpresaController extends Controller
 
             // Adiciona novamente
             foreach ($request->trabalhos as $trabalho) {
-                $empresa->trabalhos()->create([
-                    'nome' => $trabalho
-                ]);
+                if (!empty($trabalho)) {
+                    $empresa->trabalhos()->create([
+                        'nome' => $trabalho,
+                    ]);
+                }
             }
         }
 
