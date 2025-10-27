@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('jovens', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
             $table->boolean('status')->default(false);
             $table->string('nome_completo');
             $table->string('nome_social')->nullable();

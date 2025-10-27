@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Jovem;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
@@ -43,7 +45,7 @@ class JovemController extends Controller
         $validated = $request->validate([
             'nome_completo'      => 'required|string|max:255',
             'nome_social'        => 'nullable|string|max:255',
-            'email'              => 'nullable|string|max:255',
+            'email'              => 'nullable|email|max:255|unique:users,email',
             'telefone'           => 'required|string|max:20',
             'data_nascimento'    => 'required|date',
             'orientacao_sexual'  => 'nullable|string|max:255',
@@ -68,6 +70,7 @@ class JovemController extends Controller
             $validated['imagem_perfil'] = $request->file('imagem_perfil')->store('imagens_perfil', 'public');
         }
 
+        // Upload de portfólio
         if ($request->portfolio) {
             $tempPath = $request->portfolio;
             $absolutePath = storage_path('app/' . $tempPath);
@@ -81,6 +84,20 @@ class JovemController extends Controller
             Storage::disk('public')->putFileAs('portfolios', new File($absolutePath), basename($tempPath));
 
             $validated['portfolio'] = $finalPath;
+        }
+
+        // Cria o usuário vinculado
+        if (isset($validated['email']) && !empty($validated['email'])) {
+            $user = User::create([
+                'name'     => $validated['nome_completo'],
+                'email'    => $validated['email'],
+                'password' => Hash::make($validated['email']), // senha padrão
+            ]);
+
+            $user->assignRole('jovem');
+
+            // Cria o jovem e vincula ao usuário
+            $validated['user_id'] = $user->id;
         }
 
         $jovem = Jovem::create($validated);
@@ -118,7 +135,7 @@ class JovemController extends Controller
         $validated = $request->validate([
             'nome_completo'      => 'required|string|max:255',
             'nome_social'        => 'nullable|string|max:255',
-            'email'              => 'nullable|string|max:255',
+            'email'              => 'nullable|email|max:255|unique:users,email,' . $jovem->user_id,
             'telefone'           => 'required|string|max:20',
             'data_nascimento'    => 'required|date',
             'orientacao_sexual'  => 'nullable|string|max:255',
@@ -165,6 +182,29 @@ class JovemController extends Controller
             Storage::disk('public')->putFileAs('portfolios', new File($absolutePath), basename($tempPath));
 
             $validated['portfolio'] = $finalPath;
+        }
+
+        // Atualiza ou cria o usuário vinculado
+        if ($jovem->user_id) {
+            $user = User::find($jovem->user_id);
+            if ($user) {
+                $user->update([
+                    'name'  => $validated['nome_completo'],
+                    'email' => $validated['email'] ?? $user->email,
+                ]);
+            }
+        } else {
+            if (isset($validated['email']) && !empty($validated['email'])) {
+                $user = User::create([
+                    'name'     => $validated['nome_completo'],
+                    'email'    => $validated['email'],
+                    'password' => Hash::make($validated['email']),
+                ]);
+
+                $user->assignRole('jovem');
+
+                $validated['user_id'] = $user->id;
+            }
         }
 
         // Atualiza os dados
