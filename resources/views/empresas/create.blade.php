@@ -157,7 +157,7 @@
 
                                     <div class="col-md-3 mb-3">
                                         <label class="form-label required">CPF</label>
-                                        <input type="text" name="cpf" class="form-control format-" value="{{ old('cpf', $empresa->cpf ?? '') }}" required>
+                                        <input type="text" name="cpf" class="form-control format-cpf" value="{{ old('cpf', $empresa->cpf ?? '') }}" required>
                                     </div>
 
                                     <div class="col-md-3 mb-3">
