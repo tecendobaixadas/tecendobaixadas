@@ -94,7 +94,7 @@
                                             <optgroup label="Empresas">
                                                 @foreach($empresas as $empresa)
                                                     @php
-                                                        $valor = App\Models\Empresa::class . '|' . $empresa->id;
+                                                        $valor = 'empresa|' . $empresa->id;
                                                         $selecionado = old('organizacao_responsavel', $oportunidade->organizacao_type . '|' . $oportunidade->organizacao_id) == $valor;
                                                     @endphp
                                                     <option value="{{ $valor }}" @selected($selecionado)>
@@ -106,7 +106,7 @@
                                             <optgroup label="ONGs">
                                                 @foreach($ongs as $ong)
                                                     @php
-                                                        $valor = App\Models\Ong::class . '|' . $ong->id;
+                                                        $valor = 'ong|' . $ong->id;
                                                         $selecionado = old('organizacao_responsavel', $oportunidade->organizacao_type . '|' . $oportunidade->organizacao_id) == $valor;
                                                     @endphp
                                                     <option value="{{ $valor }}" @selected($selecionado)>
