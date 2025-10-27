@@ -211,15 +211,20 @@
 
                                 <div class="row">
                                     <div class="col-md-3 mb-3">
-                                        <label for="modelo_atuacao" class="form-label required">Modelo de atuação</label>
-                                        <select id="modelo_atuacao" name="modelo_atuacao" class="form-select" required>
-                                            <option value="">Selecione</option>
-                                            @foreach(['Presencial', 'Online', 'Híbrido'] as $opt)
-                                            <option value="{{ $opt }}" @selected(old('modelo_atuacao', $empresa->modelo_atuacao ?? '') == $opt)>
-                                                {{ $opt }}
-                                            </option>
-                                            @endforeach
-                                        </select>
+                                        <div class="form-group">
+                                            <label for="modelo_atuacao" class="form-label required">Modelo de atuação</label>
+                                            <select id="modelo_atuacao" name="modelo_atuacao" class="form-select">
+                                                <option value="">Selecione</option>
+                                                @foreach(['Presencial', 'Online', 'Híbrido'] as $opt)
+                                                <option value="{{ $opt }}" @selected(old('modelo_atuacao', $empresa->modelo_atuacao ?? '') == $opt)>
+                                                    {{ $opt }}
+                                                </option>
+                                                @endforeach
+                                            </select>
+                                            <div class="invalid-feedback">
+                                                Por favor, selecione um modelo de atuação.
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -243,6 +248,26 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $('#form').on('submit', function(e) {
+            const select = $('#modelo_atuacao');
+            const valor = select.val();
+            const feedback = select.closest('.form-group').find('.invalid-feedback');
+            
+            console.log('Teste a');
+
+            if (!valor) {
+                e.preventDefault();
+                feedback.removeClass('d-none').show();
+                select.addClass('is-invalid').focus();
+                return false;
+            } else {
+                feedback.addClass('d-none').hide();
+                select.removeClass('is-invalid');
+            }
+        });
+    </script>
 
     <!-- Redes Wrapper -->
     <script>
