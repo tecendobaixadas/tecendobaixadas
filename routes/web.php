@@ -79,6 +79,7 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/documentos/{documento}/edit', [DocumentoController::class, 'edit'])->name('documentos.edit');
     Route::put('/documentos/{documento}', [DocumentoController::class, 'update'])->name('documentos.update');
     Route::delete('/documentos/{documento}', [DocumentoController::class, 'destroy'])->name('documentos.destroy');
+    Route::post('/documentos/arquivo/upload', [DocumentoController::class, 'uploadArquivo'])->name('documentos.arquivo.upload');
     Route::get('/documentos/enable/{documento}', [DocumentoController::class, 'enable'])->name('documentos.enable');
     Route::get('/documentos/disable/{documento}', [DocumentoController::class, 'disable'])->name('documentos.disable');
 

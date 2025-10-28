@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Documento;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class DocumentoController extends Controller
 {
@@ -31,12 +33,23 @@ class DocumentoController extends Controller
             'tipo' => 'required|string|max:255',
             'categoria' => 'required|string|max:255',
             'data_emissao' => 'required|date',
-            'arquivo' => 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:5120', // 5MB
+            'arquivo' => 'nullable|string|max:255',
         ]);
 
         // Upload do arquivo
-        if ($request->hasFile('arquivo')) {
-            $validated['arquivo'] = $request->file('arquivo')->store('documentos', 'public');
+        if ($request->arquivo) {
+            $tempPath = $request->arquivo;
+            $absolutePath = storage_path('app/' . $tempPath);
+
+            if (!file_exists($absolutePath)) {
+                abort(404, 'Arquivo temporário não encontrado');
+            }
+
+            // Pasta final no disco public
+            $finalPath = 'documentos/' . basename($tempPath);
+            Storage::disk('public')->putFileAs('documentos', new File($absolutePath), basename($tempPath));
+
+            $validated['arquivo'] = $finalPath;
         }
 
         Documento::create($validated);
@@ -61,27 +74,56 @@ class DocumentoController extends Controller
             'tipo' => 'required|string|max:255',
             'categoria' => 'required|string|max:255',
             'data_emissao' => 'required|date',
-            'arquivo' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:5120', // 5MB
+            'arquivo' => 'nullable|string|max:255',
         ]);
 
-        // Se for edição e não tiver arquivo, torna obrigatório
-        if (!isset($documento) || empty($documento->arquivo)) {
-            $rules['arquivo'] = 'required|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:5120';
-        }
-
         // Upload do arquivo (substitui o anterior se enviado)
-        if ($request->hasFile('arquivo')) {
-            // Remove o arquivo antigo
-            if ($documento->arquivo && Storage::disk('public')->exists($documento->arquivo)) {
+        if ($request->arquivo) {
+            $tempPath = $request->arquivo;
+            $absolutePath = storage_path('app/' . $tempPath);
+
+            if (!file_exists($absolutePath)) {
+                abort(404, 'Arquivo temporário não encontrado');
+            }
+
+            // Deleta o portfolio antigo, se existir
+            if (!empty($documento->arquivo) && Storage::disk('public')->exists($documento->arquivo)) {
                 Storage::disk('public')->delete($documento->arquivo);
             }
 
-            $validated['arquivo'] = $request->file('arquivo')->store('documentos', 'public');
+            // Pasta final no disco public
+            $finalPath = 'documentos/' . basename($tempPath);
+            Storage::disk('public')->putFileAs('documentos', new File($absolutePath), basename($tempPath));
+
+            $validated['arquivo'] = $finalPath;
         }
 
         $documento->update($validated);
 
         return redirect()->route('documentos.index')->with('success', 'Documento atualizado com sucesso!');
+    }
+
+    public function uploadArquivo(Request $request)
+    {
+        $files = $request->allFiles();
+
+        if (empty($files)) {
+            abort(422, 'Nenhum arquivo foi carregado.');
+        }
+
+        if (count($files) > 1) {
+            abort(422, 'Apenas 1 arquivo pode ser carregado por vez.');
+        }
+
+        $requestKey = array_key_first($files);
+
+        $file = is_array($request->input($requestKey))
+            ? $request->file($requestKey)[0]
+            : $request->file($requestKey);
+
+        return $file->store(
+            path: 'tmp/'.now()->timestamp.'-'.Str::random(20)
+        );
     }
 
     public function disable(Documento $documento)

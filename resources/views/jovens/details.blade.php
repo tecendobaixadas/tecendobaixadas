@@ -187,6 +187,8 @@
                                             <a href="{{ Storage::url($jovem->portfolio) }}" target="_blank" class="btn btn-dark">
                                                 Visualizar
                                             </a>
+                                        @else
+                                            <p>Nenhum arquivo encontrado</p>
                                         @endif
                                     </div>
                                 </div>

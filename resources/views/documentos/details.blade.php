@@ -67,13 +67,14 @@
                                     </div>
 
                                     <div class="col-md-6 mb-3">
-                                        <label for="arquivo" class="form-label">Upload do arquivo</label>
-                                        <input type="file" id="arquivo" name="arquivo" class="form-control">
+                                        <label for="arquivo" class="form-label required">Upload do arquivo</label>
 
                                         @if(isset($documento->arquivo))
-                                            <a href="{{ Storage::url($documento->arquivo) }}" target="_blank" class="btn btn-dark btn-sm mt-3">
+                                            <a href="{{ Storage::url($documento->arquivo) }}" target="_blank" class="btn btn-dark">
                                                 Visualizar
                                             </a>
+                                        @else
+                                            <small>Nenhum arquivo encontrado</small>
                                         @endif
 
                                     </div>

@@ -93,14 +93,18 @@
 
                                     <div class="col-md-6 mb-3">
                                         <label for="arquivo" class="form-label{{ isset($documento->arquivo) ? '' : ' required' }}">Upload do arquivo</label>
-                                        <input type="file" id="arquivo" name="arquivo" class="form-control" value="{{ old('arquivo', $documento->arquivo ?? '') }}" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"{{ isset($documento->arquivo) ? '' : ' required' }}>
+                                        <input type="file" id="arquivo" name="arquivo" class="filepond @error('arquivo') is-invalid @enderror" value="{{ old('arquivo', $documento->arquivo ?? '') }}" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg"{{ isset($documento->arquivo) ? '' : ' required' }}>
+                                        @error('arquivo')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
 
                                         @if(isset($documento->arquivo))
-                                            <a href="{{ Storage::url($documento->arquivo) }}" target="_blank" class="btn btn-dark btn-sm mt-3">
+                                            <a href="{{ Storage::url($documento->arquivo) }}" target="_blank" class="btn btn-dark btn-sm mt-2">
                                                 Visualizar
                                             </a>
                                         @endif
-
                                     </div>
                                 </div>
                             </form>
@@ -110,4 +114,32 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Transformar o input em FilePond
+        const inputArquivo = document.querySelector('#arquivo');
+        FilePond.create(inputArquivo, {
+            labelIdle: 'Arraste e solte seu arquivo ou <span class="filepond--label-action">procure</span>',
+            acceptedFileTypes: [
+                'application/pdf',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'image/png',
+                'image/jpeg',
+                'image/jpg'
+            ],
+            allowMultiple: false,
+            maxFileSize: '2MB',
+            server: {
+                url: '{{ route("documentos.arquivo.upload") }}',
+                process: {
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                },
+                revert: null
+            }
+        });
+    </script>
+
 </x-app-layout>
