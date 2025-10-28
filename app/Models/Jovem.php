@@ -12,6 +12,7 @@ class Jovem extends Model
     protected $table = 'jovens';
 
     protected $fillable = [
+        'user_id',
         'nome_completo',
         'nome_social',
         'email',
