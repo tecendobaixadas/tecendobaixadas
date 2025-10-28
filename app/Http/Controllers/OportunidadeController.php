@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ong;
+use App\Models\User;
 use App\Models\Empresa;
 use App\Models\Oportunidade;
 use Illuminate\Http\Request;
@@ -12,12 +13,42 @@ class OportunidadeController extends Controller
 {
     public function index(Request $request)
     {
+        return redirect()->route('oportunidades.candidatos');
+    }
+
+    public function candidatos(Request $request)
+    {
+        $tab = 'candidatos';
+
+        $candidatos = User::query()
+            ->when($request->texto, function($query, $texto) {
+                $query->where(function($q) use ($texto) {
+                    $q->where('name', 'like', "%{$texto}%")
+                    ->orWhere('email', 'like', "%{$texto}%")
+                    ->orWhereHas('oportunidadesCandidatadas', function($q) use ($texto) {
+                        $q->where('titulo', 'like', "%{$texto}%");
+                    });
+                });
+            })
+            ->with(['oportunidadesCandidatadas' => function ($query) {
+                $query->with('organizacao');
+            }])
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('oportunidades.index', compact('tab', 'candidatos'));
+    }
+
+    public function detalhes(Request $request)
+    {
+        $tab = 'detalhes';
+
         $search = $request->get('search');
         $oportunidades = Oportunidade::when($search, function ($query, $search) {
             return $query->where('titulo', 'like', "%{$search}%");
         })->paginate(10);
 
-        return view('oportunidades.index', compact('oportunidades', 'search'));
+        return view('oportunidades.index', compact('tab', 'oportunidades', 'search'));
     }
 
     public function create()

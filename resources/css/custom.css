@@ -47,3 +47,19 @@
     margin-left: 0;
     margin-right: 4px;
 }
+
+/* Tabs */
+.nav-underline {
+    --tblr-border-width: 1px;
+    --tblr-nav-tabs-border-width: var(--tblr-border-width);
+    --tblr-nav-tabs-border-color: var(--tblr-border-color);
+    --tblr-border-color: #e5e7eb;
+    border-bottom: var(--tblr-nav-tabs-border-width) solid var(--tblr-nav-tabs-border-color);
+}
+.nav-underline .nav-link:hover,
+.nav-underline .nav-link:focus
+{
+    background-color: transparent !important;
+    border-color: transparent !important;
+    border-bottom-color: currentcolor !important;
+}

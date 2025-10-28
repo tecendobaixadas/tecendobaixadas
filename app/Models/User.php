@@ -48,4 +48,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function oportunidadesCandidatadas()
+    {
+        return $this->belongsToMany(Oportunidade::class, 'oportunidade_candidatos')
+                    ->withTimestamps();
+    }
 }

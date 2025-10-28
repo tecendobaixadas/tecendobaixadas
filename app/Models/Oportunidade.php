@@ -34,4 +34,10 @@ class Oportunidade extends Model
     {
         return $this->morphTo(__FUNCTION__, 'organizacao_type', 'organizacao_id');
     }
+
+    public function candidatos()
+    {
+        return $this->belongsToMany(User::class, 'oportunidade_candidatos')
+                    ->withTimestamps();
+    }
 }

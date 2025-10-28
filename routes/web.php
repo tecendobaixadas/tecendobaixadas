@@ -36,6 +36,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
+
     // === Jovens ===
     Route::get('/jovens', [JovemController::class, 'index'])->name('jovens.index');
     Route::get('/jovens/create', [JovemController::class, 'create'])->name('jovens.create');
@@ -70,17 +71,6 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/ongs/enable/{ong}', [OngController::class, 'enable'])->name('ongs.enable');
     Route::get('/ongs/disable/{ong}', [OngController::class, 'disable'])->name('ongs.disable');
 
-    // === Oportunidades ===
-    Route::get('/oportunidades', [OportunidadeController::class, 'index'])->name('oportunidades.index');
-    Route::get('/oportunidades/create', [OportunidadeController::class, 'create'])->name('oportunidades.create');
-    Route::post('/oportunidades', [OportunidadeController::class, 'store'])->name('oportunidades.store');
-    Route::get('/oportunidades/{oportunidade}/details', [OportunidadeController::class, 'details'])->name('oportunidades.details');
-    Route::get('/oportunidades/{oportunidade}/edit', [OportunidadeController::class, 'edit'])->name('oportunidades.edit');
-    Route::put('/oportunidades/{oportunidade}', [OportunidadeController::class, 'update'])->name('oportunidades.update');
-    Route::delete('/oportunidades/{oportunidade}', [OportunidadeController::class, 'destroy'])->name('oportunidades.destroy');
-    Route::get('/oportunidades/enable/{oportunidade}', [OportunidadeController::class, 'enable'])->name('oportunidades.enable');
-    Route::get('/oportunidades/disable/{oportunidade}', [OportunidadeController::class, 'disable'])->name('oportunidades.disable');
-
     // === Documentos ===
     Route::get('/documentos', [DocumentoController::class, 'index'])->name('documentos.index');
     Route::get('/documentos/create', [DocumentoController::class, 'create'])->name('documentos.create');
@@ -91,13 +81,33 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/documentos/{documento}', [DocumentoController::class, 'destroy'])->name('documentos.destroy');
     Route::get('/documentos/enable/{documento}', [DocumentoController::class, 'enable'])->name('documentos.enable');
     Route::get('/documentos/disable/{documento}', [DocumentoController::class, 'disable'])->name('documentos.disable');
+
 });
 
 Route::prefix('jovem')->middleware(['auth', 'role:jovem'])->group(function () {
 
     // === Oportunidades ===
     Route::get('/oportunidades', [JovemOportunidadeController::class, 'index'])->name('jovem.oportunidades.index');
+    Route::get('/oportunidades/{oportunidade}/candidatar', [JovemOportunidadeController::class, 'candidatar'])->name('jovem.oportunidades.candidatar');
 
 });
+
+Route::prefix('oportunidades')->middleware(['auth', 'role:admin|empresa|ong'])->group(function () {
+
+    // === Oportunidades ===
+    Route::get('/', [OportunidadeController::class, 'index'])->name('oportunidades.index');
+    Route::get('/candidatos', [OportunidadeController::class, 'candidatos'])->name('oportunidades.candidatos');
+    Route::get('/detalhes', [OportunidadeController::class, 'detalhes'])->name('oportunidades.detalhes');
+    Route::get('/create', [OportunidadeController::class, 'create'])->name('oportunidades.create');
+    Route::post('/', [OportunidadeController::class, 'store'])->name('oportunidades.store');
+    Route::get('/{oportunidade}/details', [OportunidadeController::class, 'details'])->name('oportunidades.details');
+    Route::get('/{oportunidade}/edit', [OportunidadeController::class, 'edit'])->name('oportunidades.edit');
+    Route::put('/{oportunidade}', [OportunidadeController::class, 'update'])->name('oportunidades.update');
+    Route::delete('/{oportunidade}', [OportunidadeController::class, 'destroy'])->name('oportunidades.destroy');
+    Route::get('/enable/{oportunidade}', [OportunidadeController::class, 'enable'])->name('oportunidades.enable');
+    Route::get('/disable/{oportunidade}', [OportunidadeController::class, 'disable'])->name('oportunidades.disable');
+
+});
+
 
 require __DIR__.'/auth.php';

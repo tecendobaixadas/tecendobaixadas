@@ -185,7 +185,7 @@
                                                     <p class="text-muted mb-3">{{ \Illuminate\Support\Str::limit($dado->descricao, 150, '...') }}</p>
 
                                                     <div class="text-center">
-                                                        <a href="#" class="btn btn-outline btn-dark">Quero me candidatar</a>
+                                                        <a href="{{ route('jovem.oportunidades.candidatar', $dado) }}" class="btn btn-outline btn-dark">Quero me candidatar</a>
                                                     </div>
                                                 </div>
 
