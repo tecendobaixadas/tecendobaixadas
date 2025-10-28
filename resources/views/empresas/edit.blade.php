@@ -13,7 +13,7 @@
                             </svg>
                         </a>
                         <!-- Page pre-title -->
-                        <h2 class="page-title">Cadastrar empresa</h2>
+                        <h2 class="page-title">Editar empresa</h2>
                     </div>
                 </div>
             </div>

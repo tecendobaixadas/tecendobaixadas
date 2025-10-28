@@ -13,7 +13,7 @@
                             </svg>
                         </a>
                         <!-- Page pre-title -->
-                        <h2 class="page-title">Cadastrar de ONG</h2>
+                        <h2 class="page-title">Detalhes da ONG</h2>
                     </div>
                 </div>
             </div>

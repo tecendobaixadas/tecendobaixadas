@@ -13,7 +13,7 @@
                             </svg>
                         </a>
                         <!-- Page pre-title -->
-                        <h2 class="page-title">Cadastrar jovem</h2>
+                        <h2 class="page-title">Editar jovem</h2>
                     </div>
                 </div>
             </div>

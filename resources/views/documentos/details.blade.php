@@ -13,7 +13,7 @@
                             </svg>
                         </a>
                         <!-- Page pre-title -->
-                        <h2 class="page-title">Cadastrar documento</h2>
+                        <h2 class="page-title">Detalhes do documento</h2>
                     </div>
                 </div>
             </div>
