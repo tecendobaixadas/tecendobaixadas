@@ -45,7 +45,7 @@
 
         <div class="d-flex align-items-center justify-content-center mb-6">
             <button type="submit" class="btn btn-dark px-4 me-3" form="form">
-                {{ __('Login') }}
+                {{ __('Entrar') }}
             </button>
         </div>
     </form>
