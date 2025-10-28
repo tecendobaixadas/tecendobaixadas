@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Jovem;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -53,6 +54,19 @@ class RegisteredUserController extends Controller
         ]);
 
         $user->assignRole('jovem');
+
+        Jovem::create([
+            'user_id' => $user->id,
+            'nome_completo' => $user->name,
+            'email' => $user->email,
+            'data_nascimento' => $user->data_nascimento,
+            'estado' => $user->estado,
+            'cidade' => $user->cidade,
+            'telefone' => $request->telefone ?? 'Não informado',
+            'genero' => 'Não informado',
+            'raca' => 'Não informado',
+            'portador_deficiencia' => 0,
+        ]);
 
         event(new Registered($user));
 
