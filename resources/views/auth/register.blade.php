@@ -1,90 +1,84 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register') }}" id="form">
         @csrf
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Nome')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
+        <h2 class="h2 text-center mb-4">{{ __('Faça seu cadastro') }}</h2>
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('E-mail')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+        <div class="col">
+            <div class="row">
 
-        <!-- Data de nascimento -->
-        <div class="mt-4">
-            <x-input-label for="data_nascimento" :value="__('Data de nascimento')" />
-            <x-text-input id="data_nascimento" class="block mt-1 w-full" type="date"
-                name="data_nascimento" :value="old('data_nascimento')" required />
-            <x-input-error :messages="$errors->get('data_nascimento')" class="mt-2" />
-        </div>
+                <!-- Name -->
+                <div class="col-12 mb-3">
+                    <label for="name" class="form-label required">Nome completo</label>
+                    <input type="text" id="name" name="name" class="form-control" placeholder="Digite aqui" value="{{ old('name') }}" required autofocus autocomplete="name">
+                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                </div>
 
-        <!-- Estado -->
-        <div class="mt-4">
-            <x-input-label for="estado" :value="__('Estado')" />
-            <x-text-input id="estado" class="block mt-1 w-full" type="text"
-                name="estado" :value="old('estado')" required />
-            <x-input-error :messages="$errors->get('estado')" class="mt-2" />
-        </div>
+                <!-- Email Address -->
+                <div class="col-12 mb-3">
+                    <label for="email" class="form-label required">E-mail</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Digite aqui" value="{{ old('email') }}" required autocomplete="email">
+                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                </div>
 
-        <!-- Cidade -->
-        <div class="mt-4">
-            <x-input-label for="cidade" :value="__('Cidade')" />
-            <x-text-input id="cidade" class="block mt-1 w-full" type="text"
-                name="cidade" :value="old('cidade')" required />
-            <x-input-error :messages="$errors->get('cidade')" class="mt-2" />
-        </div>
+                <!-- Data de nascimento -->
+                <div class="col-12 mb-3">
+                    <label for="data_nascimento" class="form-label required">Nome completo</label>
+                    <input type="date" id="data_nascimento" name="data_nascimento" class="form-control" placeholder="Digite aqui" value="{{ old('data_nascimento') }}" required>
+                    <x-input-error :messages="$errors->get('data_nascimento')" class="mt-2" />
+                </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Senha')" />
+                <!-- Estado -->
+                <div class="col-12 mb-3">
+                    <label for="estado" class="form-label required">Estado</label>
+                    <input type="text" id="estado" name="estado" class="form-control" placeholder="Digite aqui" value="{{ old('estado') }}" required autofocus autocomplete="estado">
+                    <x-input-error :messages="$errors->get('estado')" class="mt-2" />
+                </div>
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
+                <!-- Cidade -->
+                <div class="col-12 mb-3">
+                    <label for="cidade" class="form-label required">Cidade</label>
+                    <input type="text" id="cidade" name="cidade" class="form-control" placeholder="Digite aqui" value="{{ old('cidade') }}" required autofocus autocomplete="cidade">
+                    <x-input-error :messages="$errors->get('cidade')" class="mt-2" />
+                </div>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+                <!-- Password -->
+                <div class="col-12 mb-3">
+                    <label for="password" class="form-label required">Senha</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Digite aqui" required autofocus autocomplete="new-password">
+                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirmar senha')" />
+                <!-- Confirm Password -->
+                <div class="col-12 mb-3">
+                    <label for="password_confirmation" class="form-label required">Confirmar senha</label>
+                    <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" placeholder="Digite aqui" required autofocus autocomplete="new-password">
+                    <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                </div>
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
+                <!-- Aceito os Termos -->
+                <div class="col-12">
+                    <label for="aceito_termos" class="form-check">
+                        <input type="checkbox" id="aceito_termos" name="aceito_termos" class="form-check-input" value="1">
+                        <span class="form-check-label">Aceito os <a href="#" class="text-muted text-decoration-underline">Termos de Uso</a></span>
+                        <x-input-error :messages="$errors->get('aceito_termos')" class="mt-2" />
+                    </label>
+                </div>
 
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
+                <!-- Receber novidades -->
+                <div class="col-12 mb-3">
+                    <label for="receber_novidades" class="form-check">
+                        <input type="checkbox" id="receber_novidades" name="receber_novidades" class="form-check-input" value="1" {{ old('receber_novidades') ? 'checked' : '' }}>
+                        <span class="form-check-label">Gostaria de receber novidades</span>
+                    </label>
+                </div>
 
-        <!-- Aceito os Termos -->
-        <div class="mt-4 flex items-center">
-            <label for="aceito_termos" class="ms-2 text-sm text-gray-600 form-check">
-                <input type="checkbox" id="aceito_termos" name="aceito_termos" value="1" class="form-check-input" required>
-                <span class="form-check-label">Aceito os <a href="#" class="text-indigo-600 underline">Termos de Uso</a></span>
-            </label>
-            <x-input-error :messages="$errors->get('aceito_termos')" class="mt-2" />
-        </div>
-
-        <!-- Receber novidades -->
-        <div class="mt-4 flex items-center">
-            <label for="receber_novidades" class="ms-2 text-sm text-gray-600 form-check">
-                <input type="checkbox" id="receber_novidades" name="receber_novidades" class="form-check-input" value="1"
-                    {{ old('receber_novidades') ? 'checked' : '' }}>
-                <span class="form-check-label">Gostaria de receber novidades</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button class="ms-4">
-                {{ __('Cadastrar') }}
-            </x-primary-button>
+                <div class="d-flex align-items-center justify-content-center">
+                    <button type="submit" class="btn btn-dark px-4 me-3" form="form">
+                        {{ __('Cadastrar') }}
+                    </button>
+                </div>
+            </div>
         </div>
     </form>
 </x-guest-layout>

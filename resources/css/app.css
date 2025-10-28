@@ -2,7 +2,3 @@
 @import "@tabler/core/dist/css/tabler.min.css";
 @import '@tabler/core/dist/libs/tom-select/dist/css/tom-select.bootstrap5.min.css';
 @import "custom.css";
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;

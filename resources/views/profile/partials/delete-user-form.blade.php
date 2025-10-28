@@ -1,55 +1,45 @@
-<section class="space-y-6">
-    <header>
-        <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Excluir conta') }}
-        </h2>
+<section>
+    <div class="modal fade" id="deleteAccount" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-3 modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form method="post" action="{{ route('profile.destroy') }}">
+                        @csrf
+                        @method('delete')
 
-        <p class="mt-1 text-sm text-gray-600">
-            {{ __('Após a exclusão da sua conta, todos os seus recursos e dados serão excluídos permanentemente. Antes de excluir sua conta, baixe todos os dados ou informações que deseja manter.') }}
-        </p>
-    </header>
+                        <h3 class="card-title">Tem certeza de que deseja excluir sua conta?</h3>
+                        <p class="card-subtitle">Após a exclusão da sua conta, todos os seus recursos e dados serão excluídos permanentemente. Digite sua senha para confirmar que deseja excluir sua conta permanentemente.</p>
 
-    <x-danger-button
-        x-data=""
-        x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
-    >{{ __('Excluir conta') }}</x-danger-button>
+                        <div class="row mb-4 align-items-end">
+                            <div class="col-8">
+                                <label for="password" class="form-label required">Senha</label>
+                                <input type="password" id="password" name="password" class="form-control" required autocomplete="off">
+                                <x-input-error :messages="$errors->userDeletion->get('password')" class="mt-2" />
+                            </div>
+                        </div>
 
-    <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
-        <form method="post" action="{{ route('profile.destroy') }}" class="p-6">
-            @csrf
-            @method('delete')
-
-            <h2 class="text-lg font-medium text-gray-900">
-                {{ __('Tem certeza de que deseja excluir sua conta?') }}
-            </h2>
-
-            <p class="mt-1 text-sm text-gray-600">
-                {{ __('Após a exclusão da sua conta, todos os seus recursos e dados serão excluídos permanentemente. Digite sua senha para confirmar que deseja excluir sua conta permanentemente.') }}
-            </p>
-
-            <div class="mt-6">
-                <x-input-label for="password" value="{{ __('Password') }}" class="sr-only" />
-
-                <x-text-input
-                    id="password"
-                    name="password"
-                    type="password"
-                    class="mt-1 block w-3/4"
-                    placeholder="{{ __('Password') }}"
-                />
-
-                <x-input-error :messages="$errors->userDeletion->get('password')" class="mt-2" />
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn text-uppercase" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-danger text-uppercase ms-2">Excluir conta</button>
+                        </div>
+                    </form>
+                </div>
             </div>
+        </div>
+    </div>
 
-            <div class="mt-6 flex justify-end">
-                <x-secondary-button x-on:click="$dispatch('close')">
-                    {{ __('Cancelar') }}
-                </x-secondary-button>
+    <h3 class="card-title">Excluir conta</h3>
+    <p class="card-subtitle">Após a exclusão da sua conta, todos os seus recursos e dados serão excluídos permanentemente. Antes de excluir sua conta, baixe todos os dados ou informações que deseja manter.</p>
 
-                <x-danger-button class="ms-3">
-                    {{ __('Excluir conta') }}
-                </x-danger-button>
-            </div>
-        </form>
-    </x-modal>
+    <button type="button" class="btn btn-danger text-uppercase px-4" data-bs-toggle="modal" data-bs-target="#deleteAccount">
+        Excluir conta
+    </button>
 </section>
+
+@if ($errors->userDeletion->any())
+    <script>
+        $(document).ready(function () {
+            $('#deleteAccount').modal('show');
+        });
+    </script>
+@endif

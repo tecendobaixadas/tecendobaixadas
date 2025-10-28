@@ -2,31 +2,29 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{ route('login') }}" id="form">
         @csrf
 
-        <div class="mb-4 font-semibold text-xl text-gray-700 text-center">
-            {{ __('Faça login na sua conta') }}
-        </div>
+        <h2 class="h2 text-center mb-4">{{ __('Faça login na sua conta') }}</h2>
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('E-mail')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" placeholder="Ex. nome@email.com.br" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+        <div class="col">
+            <div class="row">
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Senha')" />
+                <!-- Email Address -->
+                <div class="col-12 mb-3">
+                    <label for="email" class="form-label required">E-mail</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="Ex. nome@email.com.br" value="{{ old('email') }}" required autofocus autocomplete="username">
+                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                </div>
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            placeholder="Digite aqui"
-                            required autocomplete="current-password" />
+                <!-- Email Address -->
+                <div class="col-12 mb-2">
+                    <label for="password" class="form-label required">Senha</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Digite aqui" value="{{ old('password') }}" required autocomplete="current-password">
+                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                </div>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            </div>
         </div>
 
         <!-- Remember Me -->
@@ -38,19 +36,17 @@
         </div> -->
 
         @if (Route::has('password.request'))
-        <div class="flex items-center justify-end">
-            <div class="block mt-4">
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
-                    {{ __('Esqueci minha senha') }}
-                </a>
-            </div>
+        <div class="text-end mb-3">
+            <a class="text-muted text-decoration-underline" href="{{ route('password.request') }}">
+                {{ __('Esqueci minha senha') }}
+            </a>
         </div>
         @endif
 
-        <div class="flex items-center justify-center mt-4 mb-6">
-            <x-primary-button>
+        <div class="d-flex align-items-center justify-content-center mb-6">
+            <button type="submit" class="btn btn-dark px-4 me-3" form="form">
                 {{ __('Login') }}
-            </x-primary-button>
+            </button>
         </div>
     </form>
 
