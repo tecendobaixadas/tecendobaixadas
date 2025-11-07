@@ -93,15 +93,23 @@
 
                                             <optgroup label="Empresas">
                                                 @foreach($empresas as $empresa)
-                                                    <option value="empresa|{{ $empresa->id }}" @selected(old('organizacao_responsavel') == "empresa|{$empresa->id}")>
-                                                        {{ $empresa->nome_fantasia }}
+                                                    @php
+                                                        $valor = App\Models\Empresa::class . '|' . $empresa->id;
+                                                        $selecionado = old('organizacao_responsavel', $oportunidade->organizacao_type . '|' . $oportunidade->organizacao_id) == $valor;
+                                                    @endphp
+                                                    <option value="{{ $valor }}" @selected($selecionado)>
+                                                        {{ $empresa->nome_fantasia ?? $empresa->razao_social }}
                                                     </option>
                                                 @endforeach
                                             </optgroup>
 
                                             <optgroup label="ONGs">
                                                 @foreach($ongs as $ong)
-                                                    <option value="ong|{{ $ong->id }}" @selected(old('organizacao_responsavel') == "ong|{$ong->id}")>
+                                                    @php
+                                                        $valor = App\Models\Ong::class . '|' . $ong->id;
+                                                        $selecionado = old('organizacao_responsavel', $oportunidade->organizacao_type . '|' . $oportunidade->organizacao_id) == $valor;
+                                                    @endphp
+                                                    <option value="{{ $valor }}" @selected($selecionado)>
                                                         {{ $ong->nome_organizacao }}
                                                     </option>
                                                 @endforeach
@@ -117,7 +125,7 @@
 
                                 <div class="row mb-3">
                                     <div class="col d-flex align-items-center">
-                                        <h3 class="mb-0">Responsável legal</h3>
+                                        <h3 class="mb-0">Cidade ou formato</h3>
                                     </div>
                                 </div>
 
@@ -140,7 +148,7 @@
 
                                 <div class="row mb-3">
                                     <div class="col d-flex align-items-center">
-                                        <h3 class="mb-0">Responsável legal</h3>
+                                        <h3 class="mb-0">Período e status</h3>
                                     </div>
                                 </div>
 
@@ -162,6 +170,24 @@
                                             <option value="1" @selected(old('status', $oportunidade->status ?? '') == 1)>Ativo</option>
                                             <option value="0" @selected(old('status', $oportunidade->status ?? '') == 0)>Inativo</option>
                                         </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col d-flex align-items-center">
+                                        <h3 class="mb-0">Mapa</h3>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3 mb-3">
+                                        <label for="latitude" class="form-label">Latitude</label>
+                                        <input type="text" id="latitude" name="latitude" class="form-control" value="{{ old('latitude', $oportunidade->latitude ?? '') }}" placeholder="-23.550520">
+                                    </div>
+
+                                    <div class="col-md-3 mb-3">
+                                        <label for="longitude" class="form-label">Longitude</label>
+                                        <input type="text" id="longitude" name="longitude" class="form-control" value="{{ old('longitude', $oportunidade->longitude ?? '') }}" placeholder="-46.633308">
                                     </div>
                                 </div>
                             </form>

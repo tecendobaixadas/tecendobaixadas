@@ -19,6 +19,8 @@ class Oportunidade extends Model
         'estado',
         'cidade',
         'formato',
+        'latitude',
+        'longitude',
         'data_inicio',
         'data_termino',
         'status',

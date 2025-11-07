@@ -100,7 +100,7 @@
 
                                 <div class="row mb-3">
                                     <div class="col d-flex align-items-center">
-                                        <h3 class="mb-0">Responsável legal</h3>
+                                        <h3 class="mb-0">Cidade ou formato</h3>
                                     </div>
                                 </div>
 
@@ -123,7 +123,7 @@
 
                                 <div class="row mb-3">
                                     <div class="col d-flex align-items-center">
-                                        <h3 class="mb-0">Responsável legal</h3>
+                                        <h3 class="mb-0">Período e status</h3>
                                     </div>
                                 </div>
 
@@ -145,6 +145,24 @@
                                             <option value="1" @selected(old('status', $oportunidade->status ?? '') == 1)>Ativo</option>
                                             <option value="0" @selected(old('status', $oportunidade->status ?? '') == 0)>Inativo</option>
                                         </select>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col d-flex align-items-center">
+                                        <h3 class="mb-0">Mapa</h3>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-3 mb-3">
+                                        <label for="latitude" class="form-label">Latitude</label>
+                                        <input type="text" id="latitude" name="latitude" class="form-control" value="{{ old('latitude', $oportunidade->latitude ?? '') }}" placeholder="-23.550520">
+                                    </div>
+
+                                    <div class="col-md-3 mb-3">
+                                        <label for="longitude" class="form-label">Longitude</label>
+                                        <input type="text" id="longitude" name="longitude" class="form-control" value="{{ old('longitude', $oportunidade->longitude ?? '') }}" placeholder="-46.633308">
                                     </div>
                                 </div>
                             </form>
