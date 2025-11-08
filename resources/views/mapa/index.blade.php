@@ -145,13 +145,14 @@
             maxZoom: 19
         }).addTo(map);
 
-        // 🔹 Recebe as oportunidades do backend
+        // Recebe as oportunidades do backend
         const oportunidades = @json($oportunidades);
 
         // Função para criar ícones SVG personalizados
         const createCustomIcon = () => {
             return L.divIcon({
                 iconSize: [39, 39],
+                popupAnchor: [0, -20],
                 className: 'custom-marker',
                 html: `<svg width="39" height="39" viewBox="0 0 39 39" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect width="39" height="39" rx="19.5" fill="black"/>
@@ -189,7 +190,7 @@
             markers.push(marker.getLatLng());
         });
 
-        // 🔹 Centraliza o mapa entre os marcadores
+        // Centraliza o mapa entre os marcadores
         if (markers.length > 0) {
             const bounds = L.latLngBounds(markers);
             map.fitBounds(bounds, { padding: [50, 50] });

@@ -10,6 +10,7 @@ use App\Http\Controllers\DocumentoController;
 use App\Http\Controllers\MapaController;
 
 use App\Http\Controllers\Jovem\OportunidadeController as JovemOportunidadeController;
+use App\Http\Controllers\Jovem\ChatIAController as JovemChatIAController;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,6 +95,10 @@ Route::prefix('jovem')->middleware(['auth', 'role:jovem'])->group(function () {
     // === Oportunidades ===
     Route::get('/oportunidades', [JovemOportunidadeController::class, 'index'])->name('jovem.oportunidades.index');
     Route::get('/oportunidades/{oportunidade}/candidatar', [JovemOportunidadeController::class, 'candidatar'])->name('jovem.oportunidades.candidatar');
+
+    // === Chat IA ===
+    Route::get('/chat-ia', [JovemChatIAController::class, 'index'])->name('jovem.chat.ia.index');
+    Route::post('/chat-ia/send', [JovemChatIAController::class, 'send'])->name('jovem.chat.ia.send');
 
 });
 
