@@ -17,7 +17,6 @@
                         <div class="card-body scrollable flex-fill" id="chat-body">
                             <div class="chat">
                                 <div class="chat-bubbles" id="chat-messages">
-                                    
                                     {{-- Mensagem inicial fixa do bot --}}
                                     <div class="chat-item">
                                         <div class="row align-items-end">

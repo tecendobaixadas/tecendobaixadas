@@ -88,7 +88,7 @@
 
                                     <div class="col-md-3 mb-3">
                                         <label for="organizacao_responsavel" class="form-label required">Organização responsável</label>
-                                        <select id="organizacao_responsavel" name="organizacao_responsavel" class="select-optgroups" required>
+                                        <select id="organizacao_responsavel" name="organizacao_responsavel" class="form-select" required>
                                             <option value="">Selecione</option>
 
                                             <optgroup label="Empresas">
@@ -202,7 +202,7 @@
         document.addEventListener("DOMContentLoaded", function () {
             var el;
             window.TomSelect &&
-            new TomSelect((el = document.getElementById("select-optgroups")), {
+            new TomSelect((el = document.getElementById("organizacao_responsavel")), {
                 copyClassesToDropdown: false,
                 dropdownParent: "body",
                 controlInput: "<input>",
