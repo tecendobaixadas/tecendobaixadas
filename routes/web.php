@@ -7,6 +7,7 @@ use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\OngController;
 use App\Http\Controllers\OportunidadeController;
 use App\Http\Controllers\DocumentoController;
+use App\Http\Controllers\MapaController;
 
 use App\Http\Controllers\Jovem\OportunidadeController as JovemOportunidadeController;
 
@@ -82,6 +83,9 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/documentos/arquivo/upload', [DocumentoController::class, 'uploadArquivo'])->name('documentos.arquivo.upload');
     Route::get('/documentos/enable/{documento}', [DocumentoController::class, 'enable'])->name('documentos.enable');
     Route::get('/documentos/disable/{documento}', [DocumentoController::class, 'disable'])->name('documentos.disable');
+
+    // === Mapa ===
+    Route::get('/mapa', [MapaController::class, 'mapa'])->name('mapa.index');
 
 });
 

@@ -95,7 +95,7 @@
                                                 @foreach($empresas as $empresa)
                                                     @php
                                                         $valor = App\Models\Empresa::class . '|' . $empresa->id;
-                                                        $selecionado = old('organizacao_responsavel', $oportunidade->organizacao_type . '|' . $oportunidade->organizacao_id) == $valor;
+                                                        $selecionado = old('organizacao_responsavel') == $valor;
                                                     @endphp
                                                     <option value="{{ $valor }}" @selected($selecionado)>
                                                         {{ $empresa->nome_fantasia ?? $empresa->razao_social }}
@@ -107,7 +107,7 @@
                                                 @foreach($ongs as $ong)
                                                     @php
                                                         $valor = App\Models\Ong::class . '|' . $ong->id;
-                                                        $selecionado = old('organizacao_responsavel', $oportunidade->organizacao_type . '|' . $oportunidade->organizacao_id) == $valor;
+                                                        $selecionado = old('organizacao_responsavel') == $valor;
                                                     @endphp
                                                     <option value="{{ $valor }}" @selected($selecionado)>
                                                         {{ $ong->nome_organizacao }}
