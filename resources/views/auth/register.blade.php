@@ -23,7 +23,7 @@
 
                 <!-- Data de nascimento -->
                 <div class="col-12 mb-3">
-                    <label for="data_nascimento" class="form-label required">Nome completo</label>
+                    <label for="data_nascimento" class="form-label required">Data de nascimento</label>
                     <input type="date" id="data_nascimento" name="data_nascimento" class="form-control" placeholder="Digite aqui" value="{{ old('data_nascimento') }}" required>
                     <x-input-error :messages="$errors->get('data_nascimento')" class="mt-2" />
                 </div>
