@@ -170,7 +170,7 @@
             const marker = L.marker([o.latitude, o.longitude], { icon: createCustomIcon() }).addTo(map);
 
             // Gera o link da oportunidade
-            const url = `/oportunidades/${o.id}/edit`;
+            const url = `/oportunidades/${o.id}/details`;
 
             // Popup com informações detalhadas
             const popupContent = `

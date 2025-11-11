@@ -366,7 +366,7 @@
 
                     const marker = L.marker([o.latitude, o.longitude], { icon: createCustomIcon() }).addTo(map);
 
-                    const url = `/oportunidades/${o.id}/edit`;
+                    const url = `/oportunidades/${o.id}/details`;
 
                     const popupContent = `
                         <div style="min-width:250px;">
