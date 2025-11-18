@@ -14,7 +14,7 @@
             <div class="card flex-fill">
                 <div class="row g-0 flex-fill">
                     <div class="col-12 col-lg-5 col-xl-12 border-end d-flex flex-column">
-                        <div class="card-body scrollable flex-fill" id="chat-body">
+                        <div class="card-body scrollable flex-fill" id="chat-body" style="height: 63vh;">
                             <div class="chat">
                                 <div class="chat-bubbles" id="chat-messages">
                                     {{-- Mensagem inicial fixa do bot --}}

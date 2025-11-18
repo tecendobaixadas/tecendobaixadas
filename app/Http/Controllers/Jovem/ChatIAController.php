@@ -31,10 +31,10 @@ class ChatIAController extends Controller
             'message' => $request->message,
         ]);
 
-        // Verifica se existe a chave da API configurada
-        $apiKey = env('LUMO_API_KEY');
+        // URL do Ollama (local ou VPS)
+        $ollamaUrl = env('OLLAMA_URL');
 
-        if (empty($apiKey)) {
+        if (empty($ollamaUrl)) {
             $botReply = 'Desculpe, estou temporariamente offline. A integração com a IA ainda não está configurada.';
 
             $botMessage = ChatIA::create([
@@ -49,21 +49,28 @@ class ChatIAController extends Controller
             ]);
         }
 
-        // Chamada à API Lumo AI
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $apiKey,
-            'Content-Type' => 'application/json',
-        ])->post('https://api.lumoai.com/v1/chat/completions', [
-            'model' => 'lumo-1',
-            'messages' => [
-                ['role' => 'user', 'content' => $request->message]
-            ],
+        $systemPrompt = "Você é um assistente objetivo.  
+                        Responda sempre de forma curta, direta e sem enfeites.  
+                        Se a pergunta for simples, responda em no máximo 2 ou 3 frases.  
+                        Se precisar listar algo, limite a 5 itens.  
+                        Não invente informações.  
+                        Se não souber, diga que não sabe.";
+
+        // Chamada ao Ollama (modelo phi3)
+        $response = Http::timeout(120)->post($ollamaUrl . '/api/generate', [
+            'model' => 'phi3',
+            'prompt' => $systemPrompt . "\n\n" . $request->message,
+            'stream' => false,
+            'num_predict' => 200,
+            'temperature' => 0.2,
         ]);
 
-        $botReply = $response->json()['choices'][0]['message']['content'] ?? 'Desculpe, não consegui entender.';
+        // Resposta da IA
+        $botReply = $response->json()['response'] ?? 'Desculpe, não consegui entender.';
 
         // Salva resposta da IA
         $botMessage = ChatIA::create([
+            'user_id' => Auth::id(),
             'sender' => 'bot',
             'message' => $botReply,
         ]);
