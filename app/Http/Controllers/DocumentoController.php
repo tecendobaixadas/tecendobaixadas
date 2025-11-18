@@ -9,6 +9,11 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
+use Smalot\PdfParser\Parser;
+use App\Services\OllamaService;
+use App\Helpers\TextHelper;
+use App\Models\DocumentEmbedding;
+
 class DocumentoController extends Controller
 {
     public function index(Request $request)
@@ -128,18 +133,45 @@ class DocumentoController extends Controller
 
     public function disable(Documento $documento)
     {
-      $documento->status = 0;
-      $documento->save();
+        $documento->status = 0;
+        $documento->save();
 
-      return redirect()->route('documentos.index')->with('success', 'Inativado com sucesso!');
+        return redirect()->route('documentos.index')->with('success', 'Inativado com sucesso!');
     }
 
     public function enable(Documento $documento)
     {
-      $documento->status = 1;
-      $documento->save();
+        $documento->status = 1;
+        $documento->save();
 
-      return redirect()->route('documentos.index')->with('success', 'Ativado com sucesso!');
+        // --- RAG: processar documento ---
+
+        $path = storage_path("app/public/" . $documento->arquivo);
+
+        if (!file_exists($path)) {
+            return back()->with('error', 'Arquivo não encontrado!');
+        }
+
+        // extrair texto do PDF
+        $parser = new Parser();
+        $pdf = $parser->parseFile($path);
+        $text = $pdf->getText();
+
+        // dividir texto em trechos
+        $chunks = TextHelper::chunkText($text);
+
+        foreach ($chunks as $chunk) {
+            // gerar embedding
+            $embedding = OllamaService::embed($chunk);
+
+            DocumentEmbedding::create([
+                'documento_id' => $documento->id,
+                'chunk' => $chunk,
+                'embedding' => json_encode($embedding),
+            ]);
+        }
+
+        return redirect()->route('documentos.index')->with('success', 'Documento ativado e treinado com sucesso!');
     }
 
     public function destroy(string $id)
