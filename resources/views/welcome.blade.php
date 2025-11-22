@@ -43,12 +43,13 @@
     /* Hero */
     .hero {
       background: #f3f4f5;
-      padding: 4.5rem 0;
+      
     }
     .hero .hero-title {
       font-weight: 800;
       font-size: clamp(1.6rem, 3vw, 2.6rem);
       line-height: 1.05;
+      margin-top:30px
     }
     .hero .hero-lead {
       color: var(--muted);
@@ -152,9 +153,32 @@
 
     /* responsive tweaks to match image spacing */
     @media (min-width: 992px){
-      .hero { padding: 5.5rem 0; }
       .hero .hero-title { font-size: 3rem; }
     }
+
+/* Garante que o SVG mantenha proporção */
+.smedia-placeholder svg {
+  width: 100%;
+  height: auto;
+}
+
+.tb-slogan {color:#275dfe;margin-top:180px;text-align: normal;}
+
+/* Ajuste de espaçamento vertical entre as colunas em telas menores */
+@media (max-width: 991.98px) {   /* breakpoint lg-1 */
+  .smedia-placeholder {
+    margin-bottom: 2rem;       /* espaço entre a imagem e o texto */
+  }
+}
+
+/* Reduz o tamanho da tipografia em telas muito pequenas */
+@media (max-width: 576px) {
+  .display-4 {
+    font-size: 2.5rem;   /* ~40 px em vez de 80 px */
+    line-height: 1.2;
+  }
+  .tb-slogan {margin-top:0px;text-align: center;}
+}
 
   </style>
 </head>
@@ -168,7 +192,7 @@
         TECENDO BAIXADAS</div>
       </div>
 
-      <div class="d-flex align-items-center gap-3">
+      <div class="d-flex align-items-center gap-3 d-none d-lg-block">
         <div class="d-flex gap-2">
           <a class="btn btn-sm btn-light" href="{{ route('login') }}">Entrar</a>
           <a class="btn btn-sm btn-dark" href="{{ route('register') }}">Cadastrar</a>
@@ -193,7 +217,7 @@
             </div>
 
             <div class="col-lg-6 d-flex justify-content-center">
-              <div class="rounded-circle bg-white d-flex align-items-center justify-content-center shadow" style="width:160px;height:160px;margin-top:4rem;">
+              <div class="rounded-circle bg-white d-flex align-items-center justify-content-center shadow" style="width:50%;margin:20px">
                 <img src="/assets/images/imagem-1.jpg" alt="Imagem teste" title="Imagem teste" style="border-radius:50%;">
               </div>
             </div>
@@ -558,36 +582,41 @@
     </div>
   </section>
 
-  <section class="py-0 bg-white mb-5">
-    <div class="container">
-      <div class="row g-4 align-items-center">
-        <div class="col-lg-6">
-          <div class="smedia-placeholder" style="width:500px">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 562.74 280.74"><defs><style>.cls-2{fill:#265bfa;}</style></defs><g id="Camada_2" data-name="Camada 2"><g id="Camada_1-2" data-name="Camada 1"><path class="cls-2" d="M385,192.05q0-37.5,0-75c0-8.67,4.92-13.88,13.58-13.9q56.43-.1,112.85,0c8.35,0,13.22,5,13.31,13.39q.18,18.19,0,36.37c-.09,8-5.21,13-13.21,13.15q-10.87.18-21.75,0c-2.24,0-3,.63-3,2.95-.23,10.21-.31,10.21,9.89,10.21q26.05,0,52.12,0c8.5,0,13.88,5.2,13.9,13.69q.1,37.11,0,74.23c0,8.13-5.29,13.41-13.35,13.42q-56.25,0-112.49,0c-8.34,0-13.11-4.65-13.09-12.48,0-7.34,5.14-12.21,13.15-12.23q48.36-.08,96.73,0c3.3,0,4.44-.67,4.38-4.24-.22-14.62-.17-29.25,0-43.87,0-2.91-.71-3.79-3.72-3.77-19.37.14-38.75-.18-58.11.17-10,.19-14.69-6.91-14.52-14.67.24-11.24,0-22.49.07-33.74,0-9.46,5.18-14.65,14.54-14.68,7,0,14-.07,21,0,2.1,0,2.74-.62,2.81-2.75.34-10.53.41-10.53-10-10.53-25.24,0-50.49.07-75.73-.08-3.5,0-4.59.71-4.58,4.44q.21,67.31.08,134.6c0,8.77-4.48,13.72-12.28,13.72s-12.44-4.67-12.46-12.78Q385,229.91,385,192.05Z"/><path class="cls-2" d="M289.13,103.13c25,0,50,0,75,0,8.9,0,13.91,5.11,13.49,13.32A11.65,11.65,0,0,1,367,127.69a59.74,59.74,0,0,1-6,.18q-65.81,0-131.61-.07c-3.47,0-4.78.62-4.66,4.42.29,8.89.08,8.9,9.07,8.9q26.63,0,53.24,0c9.36,0,14.59,5.22,14.6,14.63q0,55.5,0,111c0,10.47-7.8,16.39-17.05,13.11a10.73,10.73,0,0,1-7.6-9.7,55.43,55.43,0,0,1-.17-5.62c0-31.37-.07-62.74.07-94.11,0-3.47-.95-4.39-4.37-4.36-19.13.15-38.26-.22-57.37.19-10.48.22-15.54-7-15.28-15.19.36-11.12.06-22.25.1-33.37,0-9.73,4.78-14.53,14.51-14.54Q251.82,103.08,289.13,103.13Z"/><path class="cls-2" d="M150.75,121.43l-1.73-.76c-39.75-18.13-70.08-46.3-90.68-84.9-1.19-2.23-.79-3.43.87-5.06Q74,16.09,88.6,1.26c1.72-1.76,2.56-1.61,4.22.05q43.44,43.49,87,86.81c1.95,1.94,2.12,2.93.06,4.94-8.95,8.71-17.7,17.63-26.55,26.45C152.6,120.27,152,121.38,150.75,121.43Z"/><path class="cls-2" d="M90.34,182.45C77.05,169,63.82,155.59,50.49,142.24Q26.12,117.84,1.57,93.61c-2.1-2.08-2.09-3.17,0-5.23Q17.92,72.38,33.92,56c2.1-2.15,2.87-2.08,4.38.54a210.75,210.75,0,0,0,70.1,73.61c6.32,4,12.84,7.7,19.52,11.09,1.56.79,2.57,1.24.76,3C116,156.86,103.34,169.49,90.34,182.45Z"/></g></g></svg>
-          </div>
-        </div>
+<section class="py-0 bg-white mb-5">
+  <div class="container">
+    <!-- Usa .gx-5 para espaçamento horizontal maior e .align-items-center -->
+    <div class="row gx-5 align-items-center">
 
-        <div class="col-lg-6" style="margin-top:210px">
-          <span class="mb-3" style="clear:both;font-size:80px;color:#275dfe;line-height:80px">
-            Baixadas<br />
-            confluindo<br />
-            novas formas<br />
-            de inovação<br />
-          </span>
+      <!-- Coluna da ilustração -->
+      <div class="col-lg-6 col-md-12 mb-4 mb-lg-0 text-center">
+        <!-- Remove width fixa, deixa o SVG escalar -->
+        <div class="smedia-placeholder d-inline-block w-100" style="max-width:500px;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 562.74 280.74">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 562.74 280.74"><defs><style>.cls-2{fill:#265bfa;}</style></defs><g id="Camada_2" data-name="Camada 2"><g id="Camada_1-2" data-name="Camada 1"><path class="cls-2" d="M385,192.05q0-37.5,0-75c0-8.67,4.92-13.88,13.58-13.9q56.43-.1,112.85,0c8.35,0,13.22,5,13.31,13.39q.18,18.19,0,36.37c-.09,8-5.21,13-13.21,13.15q-10.87.18-21.75,0c-2.24,0-3,.63-3,2.95-.23,10.21-.31,10.21,9.89,10.21q26.05,0,52.12,0c8.5,0,13.88,5.2,13.9,13.69q.1,37.11,0,74.23c0,8.13-5.29,13.41-13.35,13.42q-56.25,0-112.49,0c-8.34,0-13.11-4.65-13.09-12.48,0-7.34,5.14-12.21,13.15-12.23q48.36-.08,96.73,0c3.3,0,4.44-.67,4.38-4.24-.22-14.62-.17-29.25,0-43.87,0-2.91-.71-3.79-3.72-3.77-19.37.14-38.75-.18-58.11.17-10,.19-14.69-6.91-14.52-14.67.24-11.24,0-22.49.07-33.74,0-9.46,5.18-14.65,14.54-14.68,7,0,14-.07,21,0,2.1,0,2.74-.62,2.81-2.75.34-10.53.41-10.53-10-10.53-25.24,0-50.49.07-75.73-.08-3.5,0-4.59.71-4.58,4.44q.21,67.31.08,134.6c0,8.77-4.48,13.72-12.28,13.72s-12.44-4.67-12.46-12.78Q385,229.91,385,192.05Z"/><path class="cls-2" d="M289.13,103.13c25,0,50,0,75,0,8.9,0,13.91,5.11,13.49,13.32A11.65,11.65,0,0,1,367,127.69a59.74,59.74,0,0,1-6,.18q-65.81,0-131.61-.07c-3.47,0-4.78.62-4.66,4.42.29,8.89.08,8.9,9.07,8.9q26.63,0,53.24,0c9.36,0,14.59,5.22,14.6,14.63q0,55.5,0,111c0,10.47-7.8,16.39-17.05,13.11a10.73,10.73,0,0,1-7.6-9.7,55.43,55.43,0,0,1-.17-5.62c0-31.37-.07-62.74.07-94.11,0-3.47-.95-4.39-4.37-4.36-19.13.15-38.26-.22-57.37.19-10.48.22-15.54-7-15.28-15.19.36-11.12.06-22.25.1-33.37,0-9.73,4.78-14.53,14.51-14.54Q251.82,103.08,289.13,103.13Z"/><path class="cls-2" d="M150.75,121.43l-1.73-.76c-39.75-18.13-70.08-46.3-90.68-84.9-1.19-2.23-.79-3.43.87-5.06Q74,16.09,88.6,1.26c1.72-1.76,2.56-1.61,4.22.05q43.44,43.49,87,86.81c1.95,1.94,2.12,2.93.06,4.94-8.95,8.71-17.7,17.63-26.55,26.45C152.6,120.27,152,121.38,150.75,121.43Z"/><path class="cls-2" d="M90.34,182.45C77.05,169,63.82,155.59,50.49,142.24Q26.12,117.84,1.57,93.61c-2.1-2.08-2.09-3.17,0-5.23Q17.92,72.38,33.92,56c2.1-2.15,2.87-2.08,4.38.54a210.75,210.75,0,0,0,70.1,73.61c6.32,4,12.84,7.7,19.52,11.09,1.56.79,2.57,1.24.76,3C116,156.86,103.34,169.49,90.34,182.45Z"/></g></g></svg>
+          </svg>
         </div>
       </div>
-    </div>
-  </section>
 
+      <!-- Coluna do texto -->
+      <div class="col-lg-6 col-md-12 tb-slogan">
+        <span class="display-4 fw-bold line-height-1">
+          Baixadas<br />
+          confluindo<br />
+          novas formas<br />
+          de inovação
+        </span>
+      </div>
+
+    </div>
+  </div>
+</section>
 
  <footer>
     <div class="container">
       <div class="row align-items-start">
         <div class="col-md-3 mb-3">
-          <div style="font-weight:800; font-size:1.1rem;">
-          <img src="/assets/images/OBx-logo.png" alt="Observatório das Baixadas" title="Observatório das Baixadas" />
-          <img src="/assets/images/nomade-logo.png" alt="Logo - Nomade Tecnologias" title="Logo - Nomade Tecnologias" />
-          </div>
+          <a href="https://www.observatoriodasbaixadas.org/" target="_blank"><img src="/assets/images/OBx-logo.png" alt="Observatório das Baixadas" title="Observatório das Baixadas" /></a>
+          <a href="https://nomade.tec.br/" target="_blank"><img src="/assets/images/nomade-logo.png" alt="Logo - Nomade Tecnologias" title="Logo - Nomade Tecnologias" /></a>
         </div>
         <div class="col-md-9">
           <p class="text-muted small mt-3">© 2025 Tecendo Baixadas — <a href="https://github.com/tecendobaixadas/tecendobaixadas" target="_blank">Open Source</a></p>
